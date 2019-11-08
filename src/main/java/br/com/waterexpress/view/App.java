@@ -6,6 +6,7 @@ public class App {
 	
 	public static void main(String[] args) throws FontFormatException, Exception {
 		
+		@SuppressWarnings("unused")
 		Sales sales = new Sales();
 	
 	}
