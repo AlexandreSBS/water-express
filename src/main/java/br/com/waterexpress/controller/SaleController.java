@@ -11,6 +11,7 @@ import br.com.waterexpress.enums.Brands;
 import br.com.waterexpress.enums.PaymentMethods;
 import br.com.waterexpress.enums.SaleStatus;
 import br.com.waterexpress.exception.SaleException;
+import br.com.waterexpress.model.Brand;
 import br.com.waterexpress.model.Sale;
 
 public class SaleController {
@@ -66,7 +67,7 @@ public class SaleController {
 
 		for (Sale sale : noPosted) {
 
-			if (sale.getId() == id && sale.getStatus() != SaleStatus.Posted) {
+			if (sale.getId() == id && sale.getStatus() != SaleStatus.POSTED) {
 
 				sales.set(sales.indexOf(sale), sale0);
 				sale0.setId(sale.getId());
@@ -123,7 +124,7 @@ public class SaleController {
 		}
 	}
 
-	public List<Sale> list(Brands brand) {
+	public List<Sale> list(Brand brand) {
 
 		List<Sale> saless = new ArrayList<Sale>();
 
@@ -151,7 +152,7 @@ public class SaleController {
 		return brands;
 	}
 
-	public Brands getBrandByInt(int id) throws SaleException {
+	public Brand getBrandByInt(int id) throws SaleException {
 
 		List<Brands> brands = new ArrayList<Brands>(EnumSet.allOf(Brands.class));
 
@@ -164,7 +165,7 @@ public class SaleController {
 		}
 
 		if (brand0 != null) {
-			return brand0;
+			return new Brand();
 		} else {
 			throw new SaleException("Id inválido!");
 		}
@@ -176,7 +177,7 @@ public class SaleController {
 
 		for (Sale sale : sales) {
 			
-			if (sale.getStatus() != SaleStatus.Posted) {
+			if (sale.getStatus() != SaleStatus.POSTED) {
 				noPosteds.add(sale);
 			}
 		}
@@ -188,7 +189,7 @@ public class SaleController {
 		
 		for (Sale sale : noPosteds) {
 			
-			sale.setStatus(SaleStatus.Posted);
+			sale.setStatus(SaleStatus.POSTED);
 		}
 
 	}

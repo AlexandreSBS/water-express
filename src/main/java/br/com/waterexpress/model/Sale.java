@@ -1,25 +1,43 @@
 package br.com.waterexpress.model;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.joda.time.DateTime;
 
 import br.com.waterexpress.enums.PaymentMethods;
 import br.com.waterexpress.enums.SaleStatus;
 
-public class Sale {
 
+@Entity
+@Table(name = "Sale")
+public class Sale {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private Client client;
 	private Product product;
 	private int quantity;
+	
+	@Enumerated(EnumType.STRING)
 	private PaymentMethods paymentMethods;
+	
 	private double totalValue;
 	private DateTime date;
+	
+	@Enumerated(EnumType.STRING)
 	private SaleStatus status;
 
 	public Sale() {
 		super();
 		date = DateTime.now();
-		status = SaleStatus.Processing;
+		status = SaleStatus.PROCESSING;
 		
 	}
 
@@ -31,7 +49,7 @@ public class Sale {
 		this.paymentMethods = paymentMethods;
 		this.totalValue = totalValue();
 		date = DateTime.now();
-		status = SaleStatus.Processing;
+		status = SaleStatus.PROCESSING;
 
 	}
 

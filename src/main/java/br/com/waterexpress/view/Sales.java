@@ -8,6 +8,7 @@ import br.com.waterexpress.controller.SaleController;
 import br.com.waterexpress.enums.Brands;
 import br.com.waterexpress.enums.PaymentMethods;
 import br.com.waterexpress.exception.SaleException;
+import br.com.waterexpress.model.Brand;
 import br.com.waterexpress.model.Client;
 import br.com.waterexpress.model.Product;
 import br.com.waterexpress.model.Sale;
@@ -100,28 +101,28 @@ public class Sales {
 	public void printSale() throws SaleException, Exception {
 
 		System.out.println("******    Nova Venda    ******");
-		
+
 		saleCtrl.addSale(sale());
-		
+
 		System.out.println("******  Compra Registrada  ******");
 		System.out.println();
 	}
 
 	public void printSaleEdit() throws Exception {
-		
+
 		System.out.println("******    Edit Sale    ******");
 		System.out.println();
-		
+
 		try {
 			List<Sale> noPosted = saleCtrl.noPostedSales();
-			
+
 			if (noPosted != null) {
 				System.out.println("Selecione a Venda (ID):");
 				int id = reader.nextInt();
 				reader.nextLine();
-				
+
 				Sale sale = sale();
-				
+
 				saleCtrl.updateSaleById(id, sale, noPosted);
 			} else {
 				System.out.println("Sem vendas com entrega pendente");
@@ -133,15 +134,15 @@ public class Sales {
 	}
 
 	public void printSaleCancellation() {
-		
+
 		System.out.println("****** Cancelamento de venda ******");
 		saleCtrl.list();
-		
+
 		System.out.print("Selecione venda (ID):");
 		int id = reader.nextInt();
-		
+
 		saleCtrl.removeSaleById(id);
-		
+
 		reader.nextLine();
 	}
 
@@ -181,26 +182,26 @@ public class Sales {
 			String resp = reader.next().toUpperCase();
 
 			switch (resp) {
-			
+
 			case "S":
-				
+
 				saleCtrl.changeToPosted(noPosteds);
-				
+
 				System.out.println("******************************");
 				System.out.println("| Ação realizada com sucesso |");
 				System.out.println("******************************");
 				System.out.println();
-				
+
 				break;
 			case "N":
-				
+
 				break;
 			default:
 				System.out.println("Opção Inválida");
 				break;
 			}
 		} else {
-			
+
 			System.out.println("Sem vendas com entrega pendente");
 		}
 	}
@@ -208,33 +209,33 @@ public class Sales {
 	public Sale sale() throws SaleException, Exception {
 
 		Client client = clientResgister();
-		
+
 		Product product = productResgister();
-		
+
 		int quant = quantityregister();
-		
+
 		System.out.println("***************************");
 		System.out.println("Valor Da Compra: R$" + Sale.totalValue(product.getPrice(), quant));
 		System.out.println("***************************");
-		
+
 		PaymentMethods pm = pmRegister();
-		
+
 		Sale sale = new Sale(client, product, quant, pm);
-		
+
 		return sale;
 
 	}
 
 	public Client clientResgister() {
-		
+
 		Client client = new Client();
-		
+
 		System.out.print("Nome: ");
 		client.setName(reader.nextLine());
-		
+
 		System.out.print("Telefone: ");
 		client.setPhoneNumber(reader.next());
-		
+
 		System.out.print("Endereço: ");
 		reader.nextLine();
 		client.setAddress(reader.nextLine());
@@ -243,28 +244,28 @@ public class Sales {
 	}
 
 	public Product productResgister() throws SaleException {
-		
+
 		System.out.println();
 		System.out.println("***** Selecione Um Produto *****");
 		System.out.println();
-		
+
 		saleCtrl.productCtrl.getProducts();
-		
+
 		System.out.print("Selecione o produto (ID): ");
 		int id = reader.nextInt();
-		
+
 		Product product = saleCtrl.productCtrl.getProduct(id);
-		
+
 		return product;
 
 	}
 
 	public int quantityregister() throws SaleException {
-		
+
 		System.out.print("Quantidade: ");
-		
+
 		int quantity = reader.nextInt();
-		
+
 		if (quantity > 0) {
 			return quantity;
 		} else {
@@ -273,77 +274,93 @@ public class Sales {
 	}
 
 	public PaymentMethods pmRegister() throws SaleException {
-		
+
 		System.out.println("Método de Pagamento");
 		System.out.println("1 - Dinheiro");
 		System.out.println("2 - Cartão");
-		
+
 		int pm = reader.nextInt();
-		
+
 		switch (pm) {
 		case 1:
-			return PaymentMethods.Dinheiro;
+			return PaymentMethods.DINHEIRO;
 		case 2:
-			return PaymentMethods.Cartão;
+			return PaymentMethods.CARTAO;
 
 		default:
 			throw new SaleException("A opção " + pm + " não existe!");
 		}
 	}
 
-	public Brands brandRegister() throws SaleException {
-		
+	public Brand brandRegister() throws SaleException {
+
 		System.out.println("********** Marcas **********");
 		listAllBrands();
-		
+
 		System.out.println("Selecione a marca (ID): ");
 		int id = reader.nextInt();
-		
+
 		return saleCtrl.getBrandByInt(id);
 	}
-	
-	public void listAllPrint () {
-		List<Sale>list = saleCtrl.list();
-		if(list!=null) {
-			for(Sale sales:list) {
+
+	public void listAllPrint() {
+
+		List<Sale> list = saleCtrl.list();
+
+		if (list != null) {
+
+			for (Sale sales : list) {
+
 				System.out.println(sales);
 			}
-		}else {
+		} else {
 			System.out.println("Sem compras registradas kkk");
 		}
 	}
-	
+
 	public void listPayment() throws SaleException {
+
 		List<Sale> salePayment = saleCtrl.list(pmRegister());
-		if(salePayment!=null) {
-		for(Sale sales:salePayment) {
-			System.out.println(sales);
-		}
-		}else {
+
+		if (salePayment != null) {
+
+			for (Sale sales : salePayment) {
+
+				System.out.println(sales);
+			}
+		} else {
 			System.out.println("Sem registro de vendas.");
 		}
 	}
-	
+
 	public void listAllBrands() {
-		List<Brands>brandList = saleCtrl.listBrands();
+
+		List<Brands> brandList = saleCtrl.listBrands();
+
 		for (Brands brand : brandList) {
+
 			System.out.println((brand.ordinal() + 1) + " " + brand);
 		}
 	}
-	
+
 	public void listBrands() throws SaleException {
-		List<Sale>saleBrands = saleCtrl.list(brandRegister());
-		if(saleBrands!=null) {
-		for(Sale sale: saleBrands) {
-			System.out.println(sale);
-		}
-		}else {
+
+		List<Sale> saleBrands = saleCtrl.list(brandRegister());
+
+		if (saleBrands != null) {
+
+			for (Sale sale : saleBrands) {
+
+				System.out.println(sale);
+			}
+		} else {
 			System.out.println("Sem registro de vendas.");
 		}
 	}
 
 	// works only on cdm
 	public static void clearConsole() {
+
 		try {
 			final String os = System.getProperty("os.name");
 

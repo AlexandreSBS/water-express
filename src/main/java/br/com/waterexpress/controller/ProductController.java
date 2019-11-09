@@ -3,7 +3,6 @@ package br.com.waterexpress.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.waterexpress.enums.Brands;
 import br.com.waterexpress.exception.SaleException;
 import br.com.waterexpress.model.Product;
 
@@ -15,7 +14,7 @@ public class ProductController {
 	private List<Product> products = new ArrayList<Product>();
 
 	private ProductController() {
-		popularize();
+		//popularize();
 	}
 
 	public static ProductController getProductController() {
@@ -63,11 +62,11 @@ public class ProductController {
 		}
 	}
 
-	private void popularize() {
+	/*private void popularize() {
 		addProduct(new Product("Garrafão de Água Mineral 20L", Brands.Indaiá, 5.95));
 		addProduct(new Product("Garrafão de Água Mineral 20L", Brands.santajoana, 4.65));
 		addProduct(new Product("Água Mineral 5L", Brands.Indaiá, 2.00));
 		addProduct(new Product("Água Mineral 5L", Brands.santajoana, 1.50));
-	}
+	}*/
 
 }
