@@ -8,7 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Product")
+@Table(name = "ProductO")
 public class Product {
 	
 	@Id
@@ -17,7 +17,7 @@ public class Product {
 	private String name;
 	
 	@ManyToOne
-	private Brand brand;
+	Brand brand;
 	private double price;
 
 	public Product() {

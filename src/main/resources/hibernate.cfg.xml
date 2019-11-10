@@ -7,9 +7,9 @@
 	<session-factory>
 
 		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="connection.url">jdbc:hsqldb:file:/home/marcos/Documentos/ENSINO/Unibratec/POO-Java/diario;hsqldb.lock_file=false</property>
-		<property name="connection.username">sa</property>
-		<property name="connection.password"></property>
+		<property name="connection.url">jdbc:mysql://localhost:3306/waterexpress></property>
+		<property name="connection.username">root</property>
+		<property name="connection.password">12345</property>
 
 		<!-- JDBC connection pool (use the built-in) -->
 		<property name="connection.pool_size">1</property>
