@@ -60,7 +60,7 @@ public class Sales {
 					System.out.println("| Insira Um Número 1 - 6 |");
 					System.out.println("++++++++++++++++++++++++++");
 					System.out.println();
-					;
+					
 				} finally {
 
 					reader.nextLine();

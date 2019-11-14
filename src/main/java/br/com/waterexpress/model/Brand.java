@@ -9,6 +9,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Sale")
 public class Brand {
+	
+	public Brand() {}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

@@ -20,8 +20,7 @@ public class Product {
 	Brand brand;
 	private double price;
 
-	public Product() {
-	}
+	public Product() {}
 
 	public Product(String name, Brand brand, double price) {
 		super();

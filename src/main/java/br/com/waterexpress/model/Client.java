@@ -18,9 +18,7 @@ public class Client {
 	private String address;
 	private String phoneNumber;
 
-	public Client() {
-		super();
-	}
+	public Client() {}
 
 	public Client(String name, String address, String phoneNumber) {
 		super();
