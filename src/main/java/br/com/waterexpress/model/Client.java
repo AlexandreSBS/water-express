@@ -13,8 +13,6 @@ public class Client {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
-
 
 	private String name;
 	private String address;
@@ -40,7 +38,7 @@ public class Client {
 
 	@Override
 	public String toString() {
-		return name + " - " + address + " - " + phoneNumber;
+		return id + " | " + name + " - " + address + " - " + phoneNumber;
 	}
 
 	// Address's get/set

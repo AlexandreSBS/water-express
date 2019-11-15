@@ -18,10 +18,18 @@ public class BrandDAO implements Operacoes<Brand> {
 	}
 
 	@Override
-	public List<Brand> allList() {
+	public Brand getById(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+	@Override
+	public List<Brand> listAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 	@Override
 	public void update(Brand register) {
@@ -34,5 +42,4 @@ public class BrandDAO implements Operacoes<Brand> {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

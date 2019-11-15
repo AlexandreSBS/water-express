@@ -16,7 +16,7 @@ public class ClientDAO implements Operacoes<Client> {
 	private SessionFactory sessionFactory;
 
 	public ClientDAO() {
-		sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+		sessionFactory = new Configuration().configure().buildSessionFactory();
 	}
 
 	@Override
@@ -28,8 +28,13 @@ public class ClientDAO implements Operacoes<Client> {
 		session.close();
 
 	}
+	
+	public Client getById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	public List<Client> allList() {
+	public List<Client> listAll() {
 
 		List<Client> result = new ArrayList<Client>();
 
@@ -66,5 +71,4 @@ public class ClientDAO implements Operacoes<Client> {
 		session.close();
 
 	}
-
 }

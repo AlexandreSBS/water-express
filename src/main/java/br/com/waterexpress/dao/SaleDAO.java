@@ -22,6 +22,7 @@ public class SaleDAO implements Operacoes<Sale> {
 	@Override
 	public void insert(Sale register) {
 		Session session = sessionFactory.openSession();
+		
 		session.beginTransaction();
 		session.save(register);
 		session.getTransaction().commit();
@@ -30,14 +31,16 @@ public class SaleDAO implements Operacoes<Sale> {
 	}
 
 	@Override
-	public List<Sale> allList() {
+	public List<Sale> listAll() {
 
 		List<Sale> result = new ArrayList<Sale>();
+		
 		Session session = sessionFactory.openSession();
-		// Consulta de uma query, listando o nome "NomeSale"
-		// result = session.createQuery("from Client where Nome LIKE
-		// '%NomeSale%'").list();
+		
+		result = session.createQuery("from Sale").list();
+		
 		session.close();
+		
 		return result;
 	}
 
@@ -58,6 +61,12 @@ public class SaleDAO implements Operacoes<Sale> {
 		session.delete(sale);
 		session.getTransaction().commit();
 		session.close();
+	}
+
+	@Override
+	public Sale getById(int id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

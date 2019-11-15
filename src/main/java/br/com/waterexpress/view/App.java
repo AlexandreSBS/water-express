@@ -20,7 +20,7 @@ public class App {
 		
 		List<Client> clients = new ArrayList<Client>();
 		
-		clients = DAO.allList();
+		clients = DAO.listAll();
 		
 		
 		clients.forEach((c) -> System.out.println(c));

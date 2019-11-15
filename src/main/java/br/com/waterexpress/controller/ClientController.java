@@ -1,11 +1,13 @@
 package br.com.waterexpress.controller;
 
+import java.util.List;
+
+import br.com.waterexpress.interfaces.Operacoes;
 import br.com.waterexpress.model.Client;
 
-public class ClientController {
+public class ClientController implements Operacoes<Client>{
 	
 	private ClientController instance;
-	private Client client = new Client();
 	
 	private ClientController() {}
 	
@@ -16,15 +18,34 @@ public class ClientController {
 		return instance; 
 	}
 
-	public ClientController(Client client) {
-		this.setClient(client);
+	@Override
+	public void insert(Client register) {
+		
+		
 	}
 
-	public Client getClient() {
-		return client;
+
+	@Override
+	public void update(Client register) {
+		// TODO Auto-generated method stub
+		
 	}
 
-	public void setClient(Client client) {
-		this.client = client;
+	@Override
+	public void delete(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Client getById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Client> listAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

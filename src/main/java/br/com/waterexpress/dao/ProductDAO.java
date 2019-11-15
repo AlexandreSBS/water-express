@@ -29,14 +29,21 @@ public class ProductDAO implements Operacoes<Product> {
 		session.getTransaction().commit();
 		session.close();
 	}
-
+	
+	public Product getById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	@Override
-	public List<Product> allList() {
+	public List<Product> listAll() {
+		
 		List<Product> result = new ArrayList<Product>();
+		
 		Session session = sessionFactory.openSession();
-		// Consulta de uma query, listando o nome "NomeProduct"
-		// result = session.createQuery("from Client where Nome LIKE
-		// '%NomeProduct%'").list();
+		
+		result = session.createQuery("from Product").list();
+		
 		session.close();
 		return result;
 
@@ -44,6 +51,7 @@ public class ProductDAO implements Operacoes<Product> {
 
 	@Override
 	public void update(Product register) {
+		
 		Session session = sessionFactory.openSession();
 		
 		session.beginTransaction();
@@ -55,7 +63,9 @@ public class ProductDAO implements Operacoes<Product> {
 
 	@Override
 	public void delete(int id) {
+		
 		Session session = sessionFactory.openSession();
+		
 		session.beginTransaction();
 		Product product = session.get(Product.class, id);
 		session.delete(product);
@@ -63,5 +73,7 @@ public class ProductDAO implements Operacoes<Product> {
 		session.close();
 
 	}
+
+
 
 }
