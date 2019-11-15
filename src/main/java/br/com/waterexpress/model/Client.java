@@ -14,6 +14,8 @@ public class Client {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
+
+
 	private String name;
 	private String address;
 	private String phoneNumber;
@@ -58,5 +60,11 @@ public class Client {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
+	public int getId() {
+		return id;
+	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
 }

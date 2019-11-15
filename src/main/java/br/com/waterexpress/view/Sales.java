@@ -56,7 +56,7 @@ public class Sales {
 				} catch (Exception e) {
 
 					System.out.println("++++++++++++++++++++++++++");
-					System.out.println("|          ERRO!!!         |");
+					System.out.println("|          ERRO!!!       |");
 					System.out.println("| Insira Um Número 1 - 6 |");
 					System.out.println("++++++++++++++++++++++++++");
 					System.out.println();
@@ -89,6 +89,11 @@ public class Sales {
 					homeOptions = 0;
 					break;
 				default:
+					System.out.println("++++++++++++++++++++++++++");
+					System.out.println("|          ERRO!!!       |");
+					System.out.println("| Insira Um Número 1 - 6 |");
+					System.out.println("++++++++++++++++++++++++++");
+					System.out.println();
 					break;
 				}
 				// TODO Clear method

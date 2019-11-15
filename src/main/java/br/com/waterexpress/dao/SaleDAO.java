@@ -10,45 +10,44 @@ import org.hibernate.cfg.Configuration;
 import br.com.waterexpress.interfaces.Operacoes;
 import br.com.waterexpress.model.Sale;
 
-public class SaleDAO implements Operacoes<Sale>{
-	
+public class SaleDAO implements Operacoes<Sale> {
+
 	private List<Sale> product = new ArrayList<Sale>();
 	private SessionFactory sessionFactory;
-	
+
 	public SaleDAO() {
-		sessionFactory = new Configuration()
-				.configure().buildSessionFactory();
+		sessionFactory = new Configuration().configure().buildSessionFactory();
 	}
-	
-	
+
 	@Override
 	public void insert(Sale register) {
 		Session session = sessionFactory.openSession();
-		  session.beginTransaction();
-		  session.save(register);
-		  session.getTransaction().commit();
-		  session.close();
-		
+		session.beginTransaction();
+		session.save(register);
+		session.getTransaction().commit();
+		session.close();
+
 	}
 
 	@Override
 	public List<Sale> allList() {
-		
-			List<Sale> result = new ArrayList<Sale>();		
-			Session  session = sessionFactory.openSession();
-			//Consulta de uma query, listando o nome "NomeSale"
-			//result = session.createQuery("from Client where Nome LIKE '%NomeSale%'").list();
-			session.close();
-			return result;
+
+		List<Sale> result = new ArrayList<Sale>();
+		Session session = sessionFactory.openSession();
+		// Consulta de uma query, listando o nome "NomeSale"
+		// result = session.createQuery("from Client where Nome LIKE
+		// '%NomeSale%'").list();
+		session.close();
+		return result;
 	}
 
 	@Override
 	public void update(Sale register) {
 		Session session = sessionFactory.openSession();
-				session.beginTransaction();
-				session.saveOrUpdate(register);
-				session.getTransaction().commit();
-				session.close();	
+		session.beginTransaction();
+		session.saveOrUpdate(register);
+		session.getTransaction().commit();
+		session.close();
 	}
 
 	@Override
