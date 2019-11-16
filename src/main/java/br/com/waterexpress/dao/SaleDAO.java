@@ -10,6 +10,7 @@ import org.hibernate.cfg.Configuration;
 import br.com.waterexpress.interfaces.Operacoes;
 import br.com.waterexpress.model.Sale;
 
+
 public class SaleDAO implements Operacoes<Sale>{
 	
 	private List<Sale> product = new ArrayList<Sale>();
@@ -59,6 +60,18 @@ public class SaleDAO implements Operacoes<Sale>{
 		session.delete(sale);
 		session.getTransaction().commit();
 		session.close();
+	}
+
+
+	@Override
+	public Sale listForId(int id) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();		
+		Sale sale = session.get(Sale.class, id);		
+		session.getTransaction().commit();
+		session.close();
+	
+		return sale;
 	}
 
 }

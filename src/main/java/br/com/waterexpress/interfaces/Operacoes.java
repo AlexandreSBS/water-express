@@ -9,12 +9,13 @@ public interface Operacoes<Object>{
 		//Create
 		public void insert(Object register);
 		//Read
-		public  List<Object> allList();
+		public List<Object> allList();
 		//Update
 		public void update(Object register);
 		//Delete
 		public void delete(int id );
 		
+		public Object listForId(int id);
 		
 	
 

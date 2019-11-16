@@ -11,6 +11,7 @@ import br.com.waterexpress.interfaces.Operacoes;
 import br.com.waterexpress.model.Client;
 
 
+
 public class ClientDAO implements Operacoes<Client> {
 	
 	@SuppressWarnings("unused")
@@ -61,6 +62,17 @@ public class ClientDAO implements Operacoes<Client> {
 		session.getTransaction().commit();
 		session.close();
 
+	}
+
+	@Override
+	public Client listForId(int id) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();		
+		Client client = session.get(Client.class, id);		
+		session.getTransaction().commit();
+		session.close();
+	
+		return client;
 	}
 	
 	

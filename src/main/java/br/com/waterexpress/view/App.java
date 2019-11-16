@@ -9,10 +9,7 @@ public class App {
 	
 	public static void main(String[] args) throws FontFormatException, Exception {
 		
-		
-		SessionFactory factory = new Configuration()
-		.configure().buildSessionFactory();
-		
+	
 		
 		Sales sales = new Sales();
 	}

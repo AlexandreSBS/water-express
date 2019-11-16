@@ -1,38 +1,86 @@
 package br.com.waterexpress.dao;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
-
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 import br.com.waterexpress.interfaces.Operacoes;
 import br.com.waterexpress.model.Brand;
 
 
+
 public class BrandDAO implements Operacoes<Brand> {
+	
+	@SuppressWarnings("unused")
+	private List<Brand> client = new ArrayList<Brand>();
+	private SessionFactory sessionFactory;
+	
+	public BrandDAO() {
+		sessionFactory = new Configuration()
+				.configure().buildSessionFactory();
+	}
 	
 	@Override
 	public void insert(Brand register) {
-		// TODO Auto-generated method stub
-		
+		Session session = sessionFactory.openSession();
+				session.beginTransaction();
+				session.save(register);
+		  		session.getTransaction().commit();
+		  		session.close();		
 	}
 
 	@Override
 	public List<Brand> allList() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Brand> result = new ArrayList<Brand>();		
+		Session  session = sessionFactory.openSession();
+		//Consulta de uma query, listando o nome "NomeBrand"
+		//result = session.createQuery("from Client where Nome LIKE '%NomeBrand%'").list();
+		         session.close();
+		         return result;
+	
+	
+	
+	
 	}
 
 	@Override
 	public void update(Brand register) {
-		// TODO Auto-generated method stub
-		
+		Session session = sessionFactory.openSession();
+		  		session.beginTransaction();
+		  		session.saveOrUpdate(register);
+		  		session.getTransaction().commit();
+		  		session.close();
 	}
 
 	@Override
 	public void delete(int id) {
-		// TODO Auto-generated method stub
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		Brand brand = session.get(Brand.class, id);
+		session.delete(brand);
+		session.getTransaction().commit();
+		session.close();
 		
 	}
+
+	@Override
+	public Brand listForId(int id) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();		
+		Brand brand = session.get(Brand.class, id);		
+		session.getTransaction().commit();
+		session.close();
+		
+		return brand;
+	}
+	
+	
+	
+	
+	
 
 }

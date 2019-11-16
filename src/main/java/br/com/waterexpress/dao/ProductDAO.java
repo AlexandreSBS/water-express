@@ -69,4 +69,16 @@ public class ProductDAO implements Operacoes<Product>{
 		
 	}
 
+
+	@Override
+	public Product listForId(int id) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();		
+		Product product = session.get(Product.class, id);		
+		session.getTransaction().commit();
+		session.close();
+		
+		return product;
+	}
+
 }
