@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.waterexpress.exception.SaleException;
+import br.com.waterexpress.interfaces.Operacoes;
 import br.com.waterexpress.model.Product;
 
-public class ProductController {
+public class ProductController implements Operacoes<Product>{
 	
 	private static ProductController instance;
 	
-	private int id = 1;
+	
 	private List<Product> products = new ArrayList<Product>();
 
 	private ProductController() {
@@ -24,42 +25,38 @@ public class ProductController {
 		
 		return instance;
 	}
-	
-	public void addProduct(Product product) {
+
+
+	@Override
+	public void insert(Product register) {
+		// TODO Auto-generated method stub
 		
-		product.setId(id);
-		
-		products.add(product);
-		
-		id++;
 	}
 
-	public void getProducts() {
+
+
+	@Override
+	public void update(Product register) {
+		// TODO Auto-generated method stub
 		
-		for (Product product : products) {
-			
-			System.out.println(product); //	TODO CONTINUOU O ERRO, MUITO BEM!!!
-		}
 	}
 
-	public Product getProduct(int id) throws SaleException {
+	@Override
+	public void delete(int id) {
+		// TODO Auto-generated method stub
 		
-		Product prod = null;
-		
-		for (Product product : products) {
-			
-			if (product.getId() == id) {
-				
-				prod = product;
-			}
-		}
-		if (prod != null) {
-			
-			return prod;
-		} else {
-			
-			throw new SaleException("ID inválido!");
-		}
+	}
+
+	@Override
+	public Product getById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Product> listAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/*private void popularize() {

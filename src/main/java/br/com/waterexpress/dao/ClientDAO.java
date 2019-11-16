@@ -10,51 +10,58 @@ import org.hibernate.cfg.Configuration;
 import br.com.waterexpress.interfaces.Operacoes;
 import br.com.waterexpress.model.Client;
 
-
-
 public class ClientDAO implements Operacoes<Client> {
-	
-	@SuppressWarnings("unused")
+
 	private List<Client> client = new ArrayList<Client>();
 	private SessionFactory sessionFactory;
-	
+
 	public ClientDAO() {
-		sessionFactory = new Configuration()
-				.configure().buildSessionFactory();
+		sessionFactory = new Configuration().configure().buildSessionFactory();
 	}
 
 	@Override
 	public void insert(Client register) {
 		Session session = sessionFactory.openSession();
-						  session.beginTransaction();
-						  session.save(register);
-						  session.getTransaction().commit();
-						  session.close();
-		
+		session.beginTransaction();
+		session.save(register);
+		session.getTransaction().commit();
+		session.close();
+
+	}
+	
+	public Client getById(int id) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();		
+		Client client = session.get(Client.class, id);		
+		session.getTransaction().commit();
+		session.close();
+	
+		return client;
+				
 	}
 
-	
-	
-	public List<Client> allList() {
-		List<Client> result = new ArrayList<Client>();		
-		Session  session = sessionFactory.openSession();
-		//Consulta de uma query, listando o nome "NomeClient"
-		//result = session.createQuery("from Client where Nome LIKE '%NomeClient%'").list();
-		         session.close();
-		         return result;
-		}
+	public List<Client> listAll() {
 
+		List<Client> result = new ArrayList<Client>();
+		Session session = sessionFactory.openSession();		
+		session.beginTransaction();		
+		result = session.createQuery("from Client").list();
+		session.close();
+		return result;
+	}
 
 	public void update(Client register) {
+
 		Session session = sessionFactory.openSession();
-						  session.beginTransaction();
-						  session.saveOrUpdate(register);
-						  session.getTransaction().commit();
-						  session.close();		
+		
+		session.beginTransaction();
+		session.saveOrUpdate(register);
+		session.getTransaction().commit();
+		session.close();
 	}
 
-	
 	public void delete(int id) {
+		
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		Client client = session.get(Client.class, id);
@@ -63,21 +70,6 @@ public class ClientDAO implements Operacoes<Client> {
 		session.close();
 
 	}
-
-	@Override
-	public Client listForId(int id) {
-		Session session = sessionFactory.openSession();
-		session.beginTransaction();		
-		Client client = session.get(Client.class, id);		
-		session.getTransaction().commit();
-		session.close();
-	
-		return client;
-	}
-	
-	
-
-
 
 }
 

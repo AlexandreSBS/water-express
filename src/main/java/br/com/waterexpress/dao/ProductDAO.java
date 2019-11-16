@@ -10,55 +10,59 @@ import org.hibernate.cfg.Configuration;
 import br.com.waterexpress.interfaces.Operacoes;
 import br.com.waterexpress.model.Product;
 
+public class ProductDAO implements Operacoes<Product> {
 
-public class ProductDAO implements Operacoes<Product>{
-	
-	
 	private List<Product> product = new ArrayList<Product>();
 	private SessionFactory sessionFactory;
-	
+
 	public ProductDAO() {
-		sessionFactory = new Configuration()
-				.configure().buildSessionFactory();
-	
+		
+		sessionFactory = new Configuration().configure().buildSessionFactory();
 	}
-	
 
 	@Override
 	public void insert(Product register) {
-		Session session = sessionFactory.openSession();
-				session.beginTransaction();
-				session.save(register);
-				session.getTransaction().commit();
-				session.close();
 		
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.save(register);
+		session.getTransaction().commit();
+		session.close();
 	}
-
+	
+	public Product getById(int id) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();		
+		Product product = session.get(Product.class, id);		
+		session.getTransaction().commit();
+		session.close();
+		return null;
+	}
+	
 	@Override
-	public List<Product> allList() {
-		List<Product> result = new ArrayList<Product>();		
-		Session  session = sessionFactory.openSession();
-		//Consulta de uma query, listando o nome "NomeProduct"
-		//result = session.createQuery("from Client where Nome LIKE '%NomeProduct%'").list();
+	public List<Product> listAll() {
+		
+		List<Product> result = new ArrayList<Product>();
+		Session session = sessionFactory.openSession();
+		result = session.createQuery("from Product").list();
 		session.close();
 		return result;
-				
 	}
 
 	@Override
 	public void update(Product register) {
+		
 		Session session = sessionFactory.openSession();
-				session.beginTransaction();
-				session.saveOrUpdate(register);
-				session.getTransaction().commit();
-				session.close();	
+		session.beginTransaction();
+		session.saveOrUpdate(register);
+		session.getTransaction().commit();
+		session.close();
 
-		
-		
 	}
 
 	@Override
 	public void delete(int id) {
+		
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		Product product = session.get(Product.class, id);
@@ -66,19 +70,10 @@ public class ProductDAO implements Operacoes<Product>{
 		session.getTransaction().commit();
 		session.close();
 
-		
 	}
 
 
-	@Override
-	public Product listForId(int id) {
-		Session session = sessionFactory.openSession();
-		session.beginTransaction();		
-		Product product = session.get(Product.class, id);		
-		session.getTransaction().commit();
-		session.close();
-		
-		return product;
-	}
+	
+
 
 }

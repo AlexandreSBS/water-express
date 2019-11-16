@@ -11,10 +11,11 @@ import br.com.waterexpress.enums.Brands;
 import br.com.waterexpress.enums.PaymentMethods;
 import br.com.waterexpress.enums.SaleStatus;
 import br.com.waterexpress.exception.SaleException;
+import br.com.waterexpress.interfaces.Operacoes;
 import br.com.waterexpress.model.Brand;
 import br.com.waterexpress.model.Sale;
 
-public class SaleController {
+public class SaleController implements Operacoes<Sale>{
 
 	private static SaleController instance;
 	public ProductController productCtrl;
@@ -36,45 +37,7 @@ public class SaleController {
 		return instance;
 	}
 
-	public void addSale(Sale sale) {
 
-		sale.setId(this.id);
-
-		sales.add(sale);
-
-		id++;
-	}
-
-	public boolean removeSaleById(int id) {
-
-		for (Sale sale : sales) {
-
-			if (sale.getId() == id && onLimitTime(sale)) {
-
-				sales.remove(sale);
-
-				return true;
-
-			} else if (sale.getId() == id)
-
-				return false;
-		}
-
-		return false;
-	}
-
-	public void updateSaleById(int id, Sale sale0, List<Sale> noPosted) {
-
-		for (Sale sale : noPosted) {
-
-			if (sale.getId() == id && sale.getStatus() != SaleStatus.POSTED) {
-
-				sales.set(sales.indexOf(sale), sale0);
-				sale0.setId(sale.getId());
-				sale0.setDate(sale.getDate());
-			}
-		}
-	}
 
 	public boolean onLimitTime(Sale sale) {
 
@@ -192,6 +155,36 @@ public class SaleController {
 			sale.setStatus(SaleStatus.POSTED);
 		}
 
+	}
+
+	@Override
+	public void insert(Sale register) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Sale getById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Sale> listAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update(Sale register) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(int id) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

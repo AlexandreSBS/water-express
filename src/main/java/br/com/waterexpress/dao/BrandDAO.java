@@ -1,4 +1,4 @@
-package br.com.waterexpress.dao;
+ package br.com.waterexpress.dao;
 
 
 import java.util.ArrayList;
@@ -10,6 +10,8 @@ import org.hibernate.cfg.Configuration;
 
 import br.com.waterexpress.interfaces.Operacoes;
 import br.com.waterexpress.model.Brand;
+
+
 
 
 
@@ -33,19 +35,29 @@ public class BrandDAO implements Operacoes<Brand> {
 		  		session.close();		
 	}
 
-	@Override
-	public List<Brand> allList() {
-		List<Brand> result = new ArrayList<Brand>();		
-		Session  session = sessionFactory.openSession();
-		//Consulta de uma query, listando o nome "NomeBrand"
-		//result = session.createQuery("from Client where Nome LIKE '%NomeBrand%'").list();
-		         session.close();
-		         return result;
 	
-	
-	
-	
+
+	public Brand getById(int id) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();		
+		Brand brand = session.get(Brand.class, id);		
+		session.getTransaction().commit();
+		session.close();
+		return brand;
+
 	}
+
+
+	@Override
+	public List<Brand> listAll() {
+		List<Brand> result = new ArrayList<Brand>();
+		Session session = sessionFactory.openSession();
+		result = session.createQuery("from Aluno").list();
+		session.close();
+		return result;
+		
+	}
+
 
 	@Override
 	public void update(Brand register) {
@@ -67,20 +79,6 @@ public class BrandDAO implements Operacoes<Brand> {
 		
 	}
 
-	@Override
-	public Brand listForId(int id) {
-		Session session = sessionFactory.openSession();
-		session.beginTransaction();		
-		Brand brand = session.get(Brand.class, id);		
-		session.getTransaction().commit();
-		session.close();
-		
-		return brand;
-	}
-	
-	
-	
-	
-	
 
+	
 }

@@ -6,6 +6,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.joda.time.DateTime;
@@ -21,7 +23,11 @@ public class Sale {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	
+	@ManyToOne
 	private Client client;
+	
+	@ManyToOne
 	private Product product;
 	private int quantity;
 	

@@ -56,7 +56,7 @@ public class Sales {
 				} catch (Exception e) {
 
 					System.out.println("++++++++++++++++++++++++++");
-					System.out.println("|          ERRO!!!         |");
+					System.out.println("|          ERRO!!!       |");
 					System.out.println("| Insira Um Número 1 - 6 |");
 					System.out.println("++++++++++++++++++++++++++");
 					System.out.println();
@@ -89,6 +89,11 @@ public class Sales {
 					homeOptions = 0;
 					break;
 				default:
+					System.out.println("++++++++++++++++++++++++++");
+					System.out.println("|          ERRO!!!       |");
+					System.out.println("| Insira Um Número 1 - 6 |");
+					System.out.println("++++++++++++++++++++++++++");
+					System.out.println();
 					break;
 				}
 				// TODO Clear method
@@ -102,7 +107,7 @@ public class Sales {
 
 		System.out.println("******    Nova Venda    ******");
 
-		saleCtrl.addSale(sale());
+		//saleCtrl.addSale(sale());
 
 		System.out.println("******  Compra Registrada  ******");
 		System.out.println();
@@ -123,7 +128,7 @@ public class Sales {
 
 				Sale sale = sale();
 
-				saleCtrl.updateSaleById(id, sale, noPosted);
+				//saleCtrl.updateSaleById(id, sale, noPosted);
 			} else {
 				System.out.println("Sem vendas com entrega pendente");
 				System.out.println();
@@ -141,7 +146,7 @@ public class Sales {
 		System.out.print("Selecione venda (ID):");
 		int id = reader.nextInt();
 
-		saleCtrl.removeSaleById(id);
+		//saleCtrl.removeSaleById(id);
 
 		reader.nextLine();
 	}
@@ -249,14 +254,14 @@ public class Sales {
 		System.out.println("***** Selecione Um Produto *****");
 		System.out.println();
 
-		saleCtrl.productCtrl.getProducts();
+		//saleCtrl.productCtrl.getProducts();
 
 		System.out.print("Selecione o produto (ID): ");
 		int id = reader.nextInt();
 
-		Product product = saleCtrl.productCtrl.getProduct(id);
+		//Product product = saleCtrl.productCtrl.getProduct(id);
 
-		return product;
+		return null;
 
 	}
 

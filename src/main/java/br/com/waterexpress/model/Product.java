@@ -15,7 +15,6 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private String name;
-	
 	@ManyToOne
 	Brand brand;
 	private double price;
