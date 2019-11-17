@@ -14,14 +14,24 @@ public class ClientDAO implements Operacoes<Client> {
 
 	private List<Client> client = new ArrayList<Client>();
 	private SessionFactory sessionFactory;
-
-	public ClientDAO() {
+	private static ClientDAO instance;
+	
+	private ClientDAO() {
 		sessionFactory = new Configuration().configure().buildSessionFactory();
+	}
+	
+	public static ClientDAO getClient() {
+		if(instance == null)
+			instance = new ClientDAO();
+		
+		return instance;
 	}
 
 	@Override
 	public void insert(Client register) {
+		
 		Session session = sessionFactory.openSession();
+		
 		session.beginTransaction();
 		session.save(register);
 		session.getTransaction().commit();
@@ -30,9 +40,13 @@ public class ClientDAO implements Operacoes<Client> {
 	}
 	
 	public Client getById(int id) {
+		
 		Session session = sessionFactory.openSession();
+		
 		session.beginTransaction();		
+		
 		Client client = session.get(Client.class, id);		
+		
 		session.getTransaction().commit();
 		session.close();
 	
@@ -43,10 +57,14 @@ public class ClientDAO implements Operacoes<Client> {
 	public List<Client> listAll() {
 
 		List<Client> result = new ArrayList<Client>();
-		Session session = sessionFactory.openSession();		
+		Session session = sessionFactory.openSession();	
+		
 		session.beginTransaction();		
+		
 		result = session.createQuery("from Client").list();
+		
 		session.close();
+		
 		return result;
 	}
 
@@ -63,8 +81,11 @@ public class ClientDAO implements Operacoes<Client> {
 	public void delete(int id) {
 		
 		Session session = sessionFactory.openSession();
+		
 		session.beginTransaction();
+		
 		Client client = session.get(Client.class, id);
+		
 		session.delete(client);
 		session.getTransaction().commit();
 		session.close();

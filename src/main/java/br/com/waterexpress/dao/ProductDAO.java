@@ -14,16 +14,25 @@ public class ProductDAO implements Operacoes<Product> {
 
 	private List<Product> product = new ArrayList<Product>();
 	private SessionFactory sessionFactory;
+	private static ProductDAO instance;
 
-	public ProductDAO() {
+	private ProductDAO() {
 		
 		sessionFactory = new Configuration().configure().buildSessionFactory();
+	}
+	
+	public static ProductDAO getProductDAO() {
+		if(instance == null)
+			instance = new ProductDAO();
+		
+		return instance;
 	}
 
 	@Override
 	public void insert(Product register) {
 		
 		Session session = sessionFactory.openSession();
+		
 		session.beginTransaction();
 		session.save(register);
 		session.getTransaction().commit();
@@ -32,11 +41,15 @@ public class ProductDAO implements Operacoes<Product> {
 	
 	public Product getById(int id) {
 		Session session = sessionFactory.openSession();
+		
 		session.beginTransaction();		
-		Product product = session.get(Product.class, id);		
+		
+		Product product = session.get(Product.class, id);	
+		
 		session.getTransaction().commit();
 		session.close();
-		return null;
+		
+		return product;
 	}
 	
 	@Override
@@ -44,8 +57,11 @@ public class ProductDAO implements Operacoes<Product> {
 		
 		List<Product> result = new ArrayList<Product>();
 		Session session = sessionFactory.openSession();
+		
 		result = session.createQuery("from Product").list();
+		
 		session.close();
+		
 		return result;
 	}
 
@@ -53,6 +69,7 @@ public class ProductDAO implements Operacoes<Product> {
 	public void update(Product register) {
 		
 		Session session = sessionFactory.openSession();
+		
 		session.beginTransaction();
 		session.saveOrUpdate(register);
 		session.getTransaction().commit();
@@ -64,8 +81,11 @@ public class ProductDAO implements Operacoes<Product> {
 	public void delete(int id) {
 		
 		Session session = sessionFactory.openSession();
+		
 		session.beginTransaction();
+		
 		Product product = session.get(Product.class, id);
+		
 		session.delete(product);
 		session.getTransaction().commit();
 		session.close();
