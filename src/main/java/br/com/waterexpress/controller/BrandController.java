@@ -7,9 +7,11 @@ import br.com.waterexpress.model.Brand;
 
 public class BrandController implements Operacoes<Brand>{
 
+	
+	
 	@Override
 	public void insert(Brand register) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

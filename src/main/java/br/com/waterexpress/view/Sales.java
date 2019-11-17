@@ -338,15 +338,15 @@ public class Sales {
 		}
 	}
 
-	public void listAllBrands() {
+	/*public void listAllBrands() {
 
 		List<Brands> brandList = saleCtrl.listBrands();
 
-		for (Brands brand : brandList) {
+		for (Brand brand : brandList) {
 
 			System.out.println((brand.ordinal() + 1) + " " + brand);
 		}
-	}
+	}*/
 
 	public void listBrands() throws SaleException {
 

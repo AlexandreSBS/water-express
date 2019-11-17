@@ -27,6 +27,7 @@
 
 		<!-- Drop and re-create the database schema on startup -->
 		<property name="hbm2ddl.auto">update</property>
+		
 
 		<mapping class="br.com.waterexpress.model.Brand" />
 		<mapping class="br.com.waterexpress.model.Client" />
@@ -34,4 +35,5 @@
 		<mapping class="br.com.waterexpress.model.Product" />
 
 	</session-factory>
+	
 </hibernate-configuration>

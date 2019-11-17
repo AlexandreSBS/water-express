@@ -7,7 +7,6 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
-import br.com.waterexpress.enums.Brands;
 import br.com.waterexpress.enums.PaymentMethods;
 import br.com.waterexpress.enums.SaleStatus;
 import br.com.waterexpress.exception.SaleException;
@@ -21,7 +20,6 @@ public class SaleController implements Operacoes<Sale>{
 	public ProductController productCtrl;
 	private static Duration timeLimit = Duration.standardMinutes(1);
 	private List<Sale> sales = new ArrayList<Sale>();
-	private int id = 1;
 
 	private SaleController() {
 
@@ -108,14 +106,14 @@ public class SaleController implements Operacoes<Sale>{
 		}
 	}
 
-	public List<Brands> listBrands() {
+	/*public List<Brands> listBrands() {
 
 		List<Brands> brands = new ArrayList<Brands>(EnumSet.allOf(Brands.class));
 
 		return brands;
-	}
+	}*/
 
-	public Brand getBrandByInt(int id) throws SaleException {
+	/*public Brand getBrandByInt(int id) throws SaleException {
 
 		List<Brands> brands = new ArrayList<Brands>(EnumSet.allOf(Brands.class));
 
@@ -132,7 +130,7 @@ public class SaleController implements Operacoes<Sale>{
 		} else {
 			throw new SaleException("Id inválido!");
 		}
-	}
+	}*/
 
 	public List<Sale> noPostedSales() {
 

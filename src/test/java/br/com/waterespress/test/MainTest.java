@@ -12,12 +12,12 @@ import br.com.waterexpress.model.Sale;
 public class MainTest {
 
 	public static void main(String[] args) {
-		ClientDAO clientDAO = new ClientDAO();
-		
+		ClientDAO clientDAO = ClientDAO.getClient();
+		SaleDAO DAO = SaleDAO.getSaleDAO();
 		Sale sale = new Sale();
 		
 		Client client = new Client();
-		client.setName("asdad");
+		client.setName("dsfsdf");
 		client.setPhoneNumber("2dasdadad");
 		client.setAddress("sadasdadad");
 		clientDAO.insert(client);
@@ -27,7 +27,7 @@ public class MainTest {
 		sale.setPaymentMethods(PaymentMethods.CARTAO);
 
 		
-		SaleDAO DAO = SaleDAO.getSaleDAO();
+		
 		
 		DAO.insert(sale);
 	
@@ -39,9 +39,17 @@ public class MainTest {
 		
 		sales.forEach((c) -> System.out.println(c));
 		
+
+	
+		
+		sale = DAO.getById(2);
 		
 		
-		//sale.setProduct(new Product("Garrafão de Água Mineral 20L", new Brand("Indaiá"), 5.95));	
+		System.out.println(sale);
+		
+		
+		
+		sale.setProduct(new Product("Garrafão de Água Mineral 20L", new Brand("Indaiá"), 5.95));	
 
 	}
 

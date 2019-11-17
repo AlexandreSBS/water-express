@@ -1,5 +1,7 @@
 package br.com.waterexpress.model;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -7,10 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import org.joda.time.DateTime;
 
 import br.com.waterexpress.enums.PaymentMethods;
 import br.com.waterexpress.enums.SaleStatus;
@@ -35,14 +34,15 @@ public class Sale {
 	private PaymentMethods paymentMethods;
 	
 	private double totalValue;
-	private DateTime date;
+
+	private LocalDateTime date;
 	
 	@Enumerated(EnumType.STRING)
 	private SaleStatus status;
 
 	public Sale() {
-		super();
-		date = DateTime.now();
+		
+		date = LocalDateTime.now();
 		status = SaleStatus.PROCESSING;
 		
 	}
@@ -54,7 +54,7 @@ public class Sale {
 		this.quantity = quantity;
 		this.paymentMethods = paymentMethods;
 		this.totalValue = totalValue();
-		date = DateTime.now();
+		date = LocalDateTime.now();
 		status = SaleStatus.PROCESSING;
 
 	}
@@ -152,11 +152,11 @@ public class Sale {
 	}
 
 	// Date's get/set
-	public DateTime getDate() {
+	public LocalDateTime getDate() {
 		return date;
 	}
 
-	public void setDate(DateTime date) {
+	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
 

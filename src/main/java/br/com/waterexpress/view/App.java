@@ -15,7 +15,7 @@ public class App {
 		client.setName("teste");
 		client.setPhoneNumber("(11) 1111-1111");
 		client.setAddress("rua das batatas");
-		ClientDAO DAO = new ClientDAO();
+		ClientDAO DAO = ClientDAO.getClient();
 		DAO.insert(client);
 		
 		List<Client> clients = new ArrayList<Client>();
