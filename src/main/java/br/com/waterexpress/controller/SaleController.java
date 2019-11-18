@@ -55,9 +55,9 @@ public class SaleController implements Operacoes<Sale>{
 		return dao.listByPaymentMethod(pm);
 	}
 
-	public List<Sale> ListByBrand(Brand brand){
+	public List<Sale> listByBrand(Brand brand){
 		
-		return dao.ListByBrand(brand);
+		return dao.listByBrand(brand);
 	}
 	
 	public List<Sale> listProcessingSales() {
@@ -76,7 +76,7 @@ public class SaleController implements Operacoes<Sale>{
 
 	}
 	
-	public void Cancel(Sale sale) throws SaleException {
+	public void cancel(Sale sale) throws SaleException {
 		
 		 if (onLimitTime(sale)){
 			 

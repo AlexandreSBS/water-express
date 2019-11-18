@@ -8,36 +8,41 @@ import br.com.waterexpress.model.Brand;
 
 public class BrandController implements Operacoes<Brand>{
 
+	private static BrandController instance;
 	private BrandDAO dao;
 	
-	public BrandController() {
+	private BrandController() {
 		dao = BrandDAO.getBranDAO();
-	}	
-	@Override
+	}
+	
+	public static BrandController getBrandDAO() {
+		
+		if(instance == null)
+			instance = new BrandController();
+		
+		return instance;
+	}
+	
 	public void insert(Brand register) {
 		
 		dao.insert(register);
 	}
 
-	@Override
 	public Brand getById(int id) {
 		
 		return dao.getById(id);
 	}
 
-	@Override
 	public List<Brand> listAll() {
 		
 		return dao.listAll();
 	}
 
-	@Override
 	public void update(Brand register) {
 		
 		dao.update(register);
 	}
 
-	@Override
 	public void delete(int id) {
 		
 		dao.delete(id);

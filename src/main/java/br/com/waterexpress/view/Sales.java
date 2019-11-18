@@ -4,6 +4,7 @@ import java.awt.FontFormatException;
 import java.util.List;
 import java.util.Scanner;
 
+import br.com.waterexpress.controller.Facade;
 import br.com.waterexpress.controller.SaleController;
 import br.com.waterexpress.enums.PaymentMethod;
 import br.com.waterexpress.exception.SaleException;
@@ -15,21 +16,21 @@ import br.com.waterexpress.model.Sale;
 public class Sales {
 
 	private SaleController saleCtrl;
+	private Facade facade;
 	Scanner reader = new Scanner(System.in);
 
-	public Sales() throws FontFormatException {
+	public Sales() {
 
-		this.saleCtrl = SaleController.getSaleController();
+		facade = Facade.getFacade();
 
 		section();
 	}
 
-	public void section() throws FontFormatException {
+	public void section() {
 
 		printHome();
 
 		System.out.println("Sessão encerrada");
-
 	}
 
 	public void printHome() {
@@ -74,15 +75,15 @@ public class Sales {
 					homeOptions = 0;
 					break;
 				case 2:
-					SaleEdit();
+					saleEdit();
 					homeOptions = 0;
 					break;
 				case 3:
-					SaleCancellation();
+					saleCancellation();
 					homeOptions = 0;
 					break;
 				case 4:
-					SalesList();
+					salesList();
 					homeOptions = 0;
 					break;
 				case 5:
@@ -112,7 +113,7 @@ public class Sales {
 		System.out.println();
 
 		try {
-			saleCtrl.insert(sale());
+			facade.saleInsert(sale());
 
 			System.out.println("*********************************");
 			System.out.println("******  Compra Registrada  ******");
@@ -128,32 +129,39 @@ public class Sales {
 		}
 	}
 
-	public void SaleEdit() throws Exception {
+	public void saleEdit() {
 
 		System.out.println("******    Edit Sale    ******");
 		System.out.println();
 
-		try {
-			List<Sale> noPosted = saleCtrl.listProcessingSales();
+		List<Sale> noPosted = facade.saleListProcessingSales();
 
-			if (noPosted != null) {
-				System.out.println("Selecione a Venda (ID):");
+		if (noPosted != null) {
+			System.out.println("Selecione a Venda (ID):");
+			
+			try {
 				int id = reader.nextInt();
-				reader.nextLine();
-
-				Sale sale = sale();
-
-				// saleCtrl.updateSaleById(id, sale, noPosted);
-			} else {
-				System.out.println("Sem vendas com entrega pendente");
+			} catch (Exception e) {
+				
+				System.out.println("++++++++++++++++++++++++++");
+				System.out.println("|         ERRO!!!        |");
+				System.out.println("|     Insira Um Núme     |");
+				System.out.println("++++++++++++++++++++++++++");
 				System.out.println();
 			}
-		} catch (SaleException ex) {
-			System.out.println(ex.getMessage());
+			
+			reader.nextLine();
+
+			Sale sale = sale();
+
+			// saleCtrl.updateSaleById(id, sale, noPosted);
+		} else {
+			System.out.println("Sem vendas com entrega pendente");
+			System.out.println();
 		}
 	}
 
-	public void SaleCancellation() {
+	public void saleCancellation() {
 
 		System.out.println("*********************************");
 		System.out.println("***** Cancelamento de venda *****");
@@ -172,7 +180,7 @@ public class Sales {
 
 			try {
 
-				saleCtrl.Cancel(saleCtrl.getById(id));
+				facade.saleCancel(saleCtrl.getById(id));
 
 			} catch (SaleException e) {
 
@@ -186,7 +194,7 @@ public class Sales {
 		reader.nextLine();
 	}
 
-	public void SalesList() throws SaleException {
+	public void salesList() throws SaleException {
 
 		System.out.println("*********** Lista de venda ***********");
 		System.out.println(" 1: Sem Filtro                       |");
@@ -246,19 +254,39 @@ public class Sales {
 		}
 	}
 
-	public Sale sale() throws SaleException, Exception {
+	public Sale sale() {
 
 		Client client = clientResgister();
 
-		Product product = productResgister();
+		Product product;
 
-		int quant = quantityregister();
+		try {
+
+			product = productResgister();
+
+		} catch (SaleException e) {
+
+			System.out.println(e.getMessage());
+		}
+
+		int quant;
+		try {
+			quant = quantityregister();
+		} catch (SaleException e) {
+			System.out.println("Erro: " + e.getMessage());
+		}
 
 		System.out.println("*********************************");
 		System.out.println("Valor Da Compra: R$" + Sale.totalValue(product.getPrice(), quant));
 		System.out.println("*********************************");
 
-		PaymentMethod pm = pmRegister();
+		PaymentMethod pm;
+		try {
+			pm = pmRegister();
+		} catch (SaleException e) {
+
+			e.printStackTrace();
+		}
 
 		Sale sale = new Sale(client, product, quant, pm);
 
@@ -320,19 +348,20 @@ public class Sales {
 		System.out.println("2 - Cartão");
 
 		try {
-			int pm = reader.nextInt();
-			
-		} catch (Exception e) { // TODO Colocar erro específico
-			e.fillInStackTrace();
-		}
-		switch (pm) {
-		case 1:
-			return PaymentMethod.DINHEIRO;
-		case 2:
-			return PaymentMethod.CARTAO;
 
-		default:
-			throw new SaleException("A opção " + pm + " não existe!");
+			int pm = reader.nextInt();
+
+			switch (pm) {
+			case 1:
+				return PaymentMethod.DINHEIRO;
+			case 2:
+				return PaymentMethod.CARTAO;
+			default:
+				throw new SaleException("A opção " + pm + " não existe!");
+			}
+		} catch (Exception e) { // TODO Colocar erro específico
+
+			System.out.println("Erro: " + e.getMessage());
 		}
 	}
 

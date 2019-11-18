@@ -107,7 +107,7 @@ public class SaleDAO implements Operacoes<Sale> {
 	}
 
 	// TODO Testar se funciona na dinamica do hibernate
-	public List<Sale> ListByBrand(Brand brand) {
+	public List<Sale> listByBrand(Brand brand) {
 
 		List<Sale> result = new ArrayList<Sale>();
 		Session session = sessionFactory.openSession();
