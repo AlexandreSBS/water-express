@@ -1,21 +1,19 @@
 package br.com.waterexpress.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import br.com.waterexpress.exception.SaleException;
+import br.com.waterexpress.dao.ProductDAO;
 import br.com.waterexpress.interfaces.Operacoes;
 import br.com.waterexpress.model.Product;
 
 public class ProductController implements Operacoes<Product>{
 	
 	private static ProductController instance;
-	
-	
-	private List<Product> products = new ArrayList<Product>();
+	private ProductDAO dao;
 
 	private ProductController() {
-		//popularize();
+		
+		dao = ProductDAO.getProductDAO();
 	}
 
 	public static ProductController getProductController() {
@@ -26,37 +24,29 @@ public class ProductController implements Operacoes<Product>{
 		return instance;
 	}
 
-
-	@Override
 	public void insert(Product register) {
-		// TODO Auto-generated method stub
 		
+		dao.insert(register);
 	}
 
-
-
-	@Override
-	public void update(Product register) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void delete(int id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public Product getById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return dao.getById(id);
+	}	
+	
+	public List<Product> listAll() {
+		
+		return dao.listAll();
+	}
+	
+	public void update(Product register) {
+		
+		dao.update(register);
 	}
 
-	@Override
-	public List<Product> listAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public void delete(int id) {
+		
+		dao.delete(id);
 	}
 
 	/*private void popularize() {

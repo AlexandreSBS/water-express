@@ -39,6 +39,7 @@ public class Sales {
 		while (homeOptions != 6) {
 
 			try {
+				System.out.println();
 				System.out.println("******  Water Express  ******");
 				System.out.println("| 1: Executar venda         |");
 				System.out.println("| 2: Editar venda           |");
@@ -47,7 +48,8 @@ public class Sales {
 				System.out.println("| 5: Finalizar os pedidos   |");
 				System.out.println("| 6: Fechar o Programa      |");
 				System.out.println("*****************************");
-
+				System.out.println();
+				System.out.print("Opção: ");
 				try {
 
 					homeOptions = reader.nextInt();
@@ -68,19 +70,19 @@ public class Sales {
 				switch (homeOptions) {
 
 				case 1:
-					printSale();
+					newSale();
 					homeOptions = 0;
 					break;
 				case 2:
-					printSaleEdit();
+					SaleEdit();
 					homeOptions = 0;
 					break;
 				case 3:
-					printSaleCancellation();
+					SaleCancellation();
 					homeOptions = 0;
 					break;
 				case 4:
-					PrintSalesList();
+					SalesList();
 					homeOptions = 0;
 					break;
 				case 5:
@@ -102,22 +104,31 @@ public class Sales {
 		}
 	}
 
-	public void printSale() throws SaleException, Exception {
+	public void newSale() {
 
-		System.out.println("+++++++++++++++++++++++++++++++++");
-		System.out.println("*******    Nova Venda    *******");
-		System.out.println("+++++++++++++++++++++++++++++++++");
+		System.out.println("*********************************");
+		System.out.println("*******    Nova Venda    ********");
+		System.out.println("*********************************");
 		System.out.println();
 
-		saleCtrl.insert(sale());
+		try {
+			saleCtrl.insert(sale());
 
-		System.out.println("+++++++++++++++++++++++++++++++++");
-		System.out.println("******  Compra Registrada  ******");
-		System.out.println("+++++++++++++++++++++++++++++++++");
-		System.out.println();
+			System.out.println("*********************************");
+			System.out.println("******  Compra Registrada  ******");
+			System.out.println("*********************************");
+			System.out.println();
+
+		} catch (Exception e) {
+
+			System.out.println();
+			System.out.println("*********************************");
+			System.out.println("Erro: " + e.getMessage());
+			System.out.println("*********************************");
+		}
 	}
 
-	public void printSaleEdit() throws Exception {
+	public void SaleEdit() throws Exception {
 
 		System.out.println("******    Edit Sale    ******");
 		System.out.println();
@@ -142,11 +153,11 @@ public class Sales {
 		}
 	}
 
-	public void printSaleCancellation() {
+	public void SaleCancellation() {
 
-		System.out.println("+++++++++++++++++++++++++++++++++");
+		System.out.println("*********************************");
 		System.out.println("***** Cancelamento de venda *****");
-		System.out.println("+++++++++++++++++++++++++++++++++");
+		System.out.println("*********************************");
 		System.out.println();
 
 		List<Sale> sales = saleCtrl.listAll();
@@ -160,9 +171,9 @@ public class Sales {
 			int id = reader.nextInt();
 
 			try {
-				
+
 				saleCtrl.Cancel(saleCtrl.getById(id));
-				
+
 			} catch (SaleException e) {
 
 				System.out.println(e.getMessage());
@@ -175,7 +186,7 @@ public class Sales {
 		reader.nextLine();
 	}
 
-	public void PrintSalesList() throws SaleException {
+	public void SalesList() throws SaleException {
 
 		System.out.println("*********** Lista de venda ***********");
 		System.out.println(" 1: Sem Filtro                       |");
@@ -243,9 +254,9 @@ public class Sales {
 
 		int quant = quantityregister();
 
-		System.out.println("***************************");
+		System.out.println("*********************************");
 		System.out.println("Valor Da Compra: R$" + Sale.totalValue(product.getPrice(), quant));
-		System.out.println("***************************");
+		System.out.println("*********************************");
 
 		PaymentMethod pm = pmRegister();
 
@@ -308,8 +319,12 @@ public class Sales {
 		System.out.println("1 - Dinheiro");
 		System.out.println("2 - Cartão");
 
-		int pm = reader.nextInt();
-
+		try {
+			int pm = reader.nextInt();
+			
+		} catch (Exception e) { // TODO Colocar erro específico
+			e.fillInStackTrace();
+		}
 		switch (pm) {
 		case 1:
 			return PaymentMethod.DINHEIRO;
