@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import br.com.waterexpress.controller.SaleController;
-import br.com.waterexpress.enums.Brands;
-import br.com.waterexpress.enums.PaymentMethods;
+import br.com.waterexpress.enums.PaymentMethod;
 import br.com.waterexpress.exception.SaleException;
 import br.com.waterexpress.model.Brand;
 import br.com.waterexpress.model.Client;
@@ -60,7 +59,7 @@ public class Sales {
 					System.out.println("| Insira Um Número 1 - 6 |");
 					System.out.println("++++++++++++++++++++++++++");
 					System.out.println();
-					
+
 				} finally {
 
 					reader.nextLine();
@@ -105,11 +104,16 @@ public class Sales {
 
 	public void printSale() throws SaleException, Exception {
 
-		System.out.println("******    Nova Venda    ******");
+		System.out.println("+++++++++++++++++++++++++++++++++");
+		System.out.println("*******    Nova Venda    *******");
+		System.out.println("+++++++++++++++++++++++++++++++++");
+		System.out.println();
 
-		//saleCtrl.addSale(sale());
+		saleCtrl.insert(sale());
 
+		System.out.println("+++++++++++++++++++++++++++++++++");
 		System.out.println("******  Compra Registrada  ******");
+		System.out.println("+++++++++++++++++++++++++++++++++");
 		System.out.println();
 	}
 
@@ -119,7 +123,7 @@ public class Sales {
 		System.out.println();
 
 		try {
-			List<Sale> noPosted = saleCtrl.noPostedSales();
+			List<Sale> noPosted = saleCtrl.listProcessingSales();
 
 			if (noPosted != null) {
 				System.out.println("Selecione a Venda (ID):");
@@ -128,7 +132,7 @@ public class Sales {
 
 				Sale sale = sale();
 
-				//saleCtrl.updateSaleById(id, sale, noPosted);
+				// saleCtrl.updateSaleById(id, sale, noPosted);
 			} else {
 				System.out.println("Sem vendas com entrega pendente");
 				System.out.println();
@@ -140,13 +144,33 @@ public class Sales {
 
 	public void printSaleCancellation() {
 
-		System.out.println("****** Cancelamento de venda ******");
-		saleCtrl.list();
+		System.out.println("+++++++++++++++++++++++++++++++++");
+		System.out.println("***** Cancelamento de venda *****");
+		System.out.println("+++++++++++++++++++++++++++++++++");
+		System.out.println();
 
-		System.out.print("Selecione venda (ID):");
-		int id = reader.nextInt();
+		List<Sale> sales = saleCtrl.listAll();
 
-		//saleCtrl.removeSaleById(id);
+		if (sales != null) {
+			for (Sale sale : sales) {
+
+				System.out.println(sale);
+			}
+			System.out.print("Selecione venda (ID):");
+			int id = reader.nextInt();
+
+			try {
+				
+				saleCtrl.Cancel(saleCtrl.getById(id));
+				
+			} catch (SaleException e) {
+
+				System.out.println(e.getMessage());
+			}
+
+		} else {
+			System.out.println("Não há vendas registradas");
+		}
 
 		reader.nextLine();
 	}
@@ -178,9 +202,9 @@ public class Sales {
 
 	public void printCompleteOrders() {
 
-		List<Sale> noPosteds = saleCtrl.noPostedSales();
+		List<Sale> ProcessingSales = saleCtrl.listProcessingSales();
 
-		if (noPosteds != null) {
+		if (ProcessingSales != null) {
 
 			System.out.println("Colocar para entregar (S ou N)?");
 
@@ -190,7 +214,7 @@ public class Sales {
 
 			case "S":
 
-				saleCtrl.changeToPosted(noPosteds);
+				saleCtrl.changeToPosted(ProcessingSales);
 
 				System.out.println("******************************");
 				System.out.println("| Ação realizada com sucesso |");
@@ -223,7 +247,7 @@ public class Sales {
 		System.out.println("Valor Da Compra: R$" + Sale.totalValue(product.getPrice(), quant));
 		System.out.println("***************************");
 
-		PaymentMethods pm = pmRegister();
+		PaymentMethod pm = pmRegister();
 
 		Sale sale = new Sale(client, product, quant, pm);
 
@@ -254,12 +278,12 @@ public class Sales {
 		System.out.println("***** Selecione Um Produto *****");
 		System.out.println();
 
-		//saleCtrl.productCtrl.getProducts();
+		// saleCtrl.productCtrl.getProducts();
 
 		System.out.print("Selecione o produto (ID): ");
 		int id = reader.nextInt();
 
-		//Product product = saleCtrl.productCtrl.getProduct(id);
+		// Product product = saleCtrl.productCtrl.getProduct(id);
 
 		return null;
 
@@ -278,7 +302,7 @@ public class Sales {
 		}
 	}
 
-	public PaymentMethods pmRegister() throws SaleException {
+	public PaymentMethod pmRegister() throws SaleException {
 
 		System.out.println("Método de Pagamento");
 		System.out.println("1 - Dinheiro");
@@ -288,9 +312,9 @@ public class Sales {
 
 		switch (pm) {
 		case 1:
-			return PaymentMethods.DINHEIRO;
+			return PaymentMethod.DINHEIRO;
 		case 2:
-			return PaymentMethods.CARTAO;
+			return PaymentMethod.CARTAO;
 
 		default:
 			throw new SaleException("A opção " + pm + " não existe!");
@@ -310,7 +334,7 @@ public class Sales {
 
 	public void listAllPrint() {
 
-		List<Sale> list = saleCtrl.list();
+		List<Sale> list = saleCtrl.listAll();
 
 		if (list != null) {
 
@@ -325,7 +349,7 @@ public class Sales {
 
 	public void listPayment() throws SaleException {
 
-		List<Sale> salePayment = saleCtrl.list(pmRegister());
+		List<Sale> salePayment = saleCtrl.listAll(pmRegister());
 
 		if (salePayment != null) {
 
@@ -338,19 +362,19 @@ public class Sales {
 		}
 	}
 
-	/*public void listAllBrands() {
-
-		List<Brands> brandList = saleCtrl.listBrands();
-
-		for (Brand brand : brandList) {
-
-			System.out.println((brand.ordinal() + 1) + " " + brand);
-		}
-	}*/
+	/*
+	 * public void listAllBrands() {
+	 * 
+	 * List<Brands> brandList = saleCtrl.listBrands();
+	 * 
+	 * for (Brand brand : brandList) {
+	 * 
+	 * System.out.println((brand.ordinal() + 1) + " " + brand); } }
+	 */
 
 	public void listBrands() throws SaleException {
 
-		List<Sale> saleBrands = saleCtrl.list(brandRegister());
+		List<Sale> saleBrands = saleCtrl.listAll(brandRegister());
 
 		if (saleBrands != null) {
 

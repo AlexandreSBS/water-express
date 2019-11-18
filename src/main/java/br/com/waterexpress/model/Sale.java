@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import br.com.waterexpress.enums.PaymentMethods;
+import br.com.waterexpress.enums.PaymentMethod;
 import br.com.waterexpress.enums.SaleStatus;
 
 
@@ -31,7 +31,7 @@ public class Sale {
 	private int quantity;
 	
 	@Enumerated(EnumType.STRING)
-	private PaymentMethods paymentMethods;
+	private PaymentMethod paymentMethod;
 	
 	private double totalValue;
 
@@ -47,16 +47,15 @@ public class Sale {
 		
 	}
 
-	public Sale(Client client, Product products, int quantity, PaymentMethods paymentMethods) {
+	public Sale(Client client, Product products, int quantity, PaymentMethod paymentMethods) {
 		
 		this.client = client;
 		this.product = products;
 		this.quantity = quantity;
-		this.paymentMethods = paymentMethods;
+		this.paymentMethod = paymentMethods;
 		this.totalValue = totalValue();
 		date = LocalDateTime.now();
 		status = SaleStatus.PROCESSING;
-
 	}
 
 	public double totalValue() {
@@ -79,7 +78,7 @@ public class Sale {
 		sb.append("\nProduct: " + product);
 		sb.append(" | Quant: " + quantity);
 		sb.append("\nTotal: R$ " + totalValue);
-		sb.append(" | " + paymentMethods);
+		sb.append(" | " + paymentMethod);
 		sb.append(" | " + status);
 		sb.append("\n------------------------------------------------------------------");
 		
@@ -87,14 +86,14 @@ public class Sale {
 	}
 
 	// PaymentMethods's get/set
-	public PaymentMethods getPaymentMethods() {
+	public PaymentMethod getPaymentMethods() {
 		
-		return paymentMethods;
+		return paymentMethod;
 	}
 
-	public void setPaymentMethods(PaymentMethods paymentMethods) {
+	public void setPaymentMethods(PaymentMethod paymentMethods) {
 		
-		this.paymentMethods = paymentMethods;
+		this.paymentMethod = paymentMethods;
 	}
 
 	// Product's get/set
