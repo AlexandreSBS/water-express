@@ -8,6 +8,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -27,7 +28,7 @@ public class Sale {
 	private Client client;
 	
 	@ManyToOne
-	private Product product;
+	private Item item;
 	private int quantity;
 	
 	@Enumerated(EnumType.STRING)
@@ -47,10 +48,10 @@ public class Sale {
 		
 	}
 
-	public Sale(Client client, Product products, int quantity, PaymentMethod paymentMethods) {
+	public Sale(Client client, Item itens, int quantity, PaymentMethod paymentMethods) {
 		
 		this.client = client;
-		this.product = products;
+		this.item = itens;
 		this.quantity = quantity;
 		this.paymentMethod = paymentMethods;
 		this.totalValue = totalValue();
@@ -60,7 +61,7 @@ public class Sale {
 
 	public double totalValue() {
 		
-		return product.getPrice() * quantity;
+		return item.getProduct().getPrice() * quantity;
 	}
 	public static double totalValue( double price, int quantity) {
 		
@@ -75,7 +76,7 @@ public class Sale {
 		sb.append("------------------------------------------------------------------\n");
 		sb.append("Id: " + id);
 		sb.append("\nCliente: " + client);
-		sb.append("\nProduct: " + product);
+		sb.append("\nItens: " + item);
 		sb.append(" | Quant: " + quantity);
 		sb.append("\nTotal: R$ " + totalValue);
 		sb.append(" | " + paymentMethod);
@@ -97,12 +98,12 @@ public class Sale {
 	}
 
 	// Product's get/set
-	public Product getProduct() {
-		return product;
+	public Item getItem() {
+		return item;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setItem(Item itens) {
+		this.item = itens;
 	}
 
 	// Status's get/set

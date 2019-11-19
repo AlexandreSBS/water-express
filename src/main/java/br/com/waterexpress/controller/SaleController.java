@@ -71,7 +71,7 @@ public class SaleController implements Operacoes<Sale>{
 			
 			sale.setStatus(SaleStatus.POSTED);
 			
-			update(sale);
+			dao.update(sale);
 		}
 
 	}

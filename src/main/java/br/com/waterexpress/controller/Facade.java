@@ -6,6 +6,7 @@ import br.com.waterexpress.enums.PaymentMethod;
 import br.com.waterexpress.exception.SaleException;
 import br.com.waterexpress.model.Brand;
 import br.com.waterexpress.model.Client;
+import br.com.waterexpress.model.Item;
 import br.com.waterexpress.model.Product;
 import br.com.waterexpress.model.Sale;
 
@@ -16,6 +17,7 @@ public class Facade {
 	private ClientController clientController;
 	private ProductController productController;
 	private BrandController brandController;
+	private ItemController itemController;
 
 	private Facade() {
 
@@ -23,6 +25,7 @@ public class Facade {
 		clientController = ClientController.getClientController();
 		productController = ProductController.getProductController();
 		brandController = BrandController.getBrandDAO();
+		itemController = ItemController.getItemController();
 	}
 
 	public static Facade getFacade() {
@@ -155,5 +158,30 @@ public class Facade {
 	public void brandDelete(int id) {
 		
 		brandController.delete(id);
+	}
+	
+	public void itemInsert(Item register) {
+		
+		itemController.insert(register);
+	}
+
+	public Item itemGetById(int id) {
+		
+		return itemController.getById(id);
+	}
+
+	public List<Item> itemListAll() {
+		
+		return itemController.listAll();
+	}
+
+	public void itemUpdate(Item register) {
+		
+		itemController.update(register);
+	}
+
+	public void itemDelete(int id) {
+		
+		itemController.delete(id);
 	}
 }

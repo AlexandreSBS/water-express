@@ -33,6 +33,7 @@
 		<mapping class="br.com.waterexpress.model.Client" />
 		<mapping class="br.com.waterexpress.model.Sale" />
 		<mapping class="br.com.waterexpress.model.Product" />
+		<mapping class="br.com.waterexpress.model.Item" />
 
 	</session-factory>
 	

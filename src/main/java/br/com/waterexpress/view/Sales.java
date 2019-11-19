@@ -257,7 +257,7 @@ public class Sales {
 	public Sale sale() {
 
 		Client client = clientResgister();
-
+		facade.clientInsert(client);
 		Product product;
 
 		try {
