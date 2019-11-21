@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import br.com.waterexpress.controller.Facade;
 import br.com.waterexpress.controller.SaleController;
+import br.com.waterexpress.controller.Validator;
 import br.com.waterexpress.enums.PaymentMethod;
 import br.com.waterexpress.exception.SaleException;
 import br.com.waterexpress.model.Brand;
@@ -14,7 +15,7 @@ import br.com.waterexpress.model.Product;
 import br.com.waterexpress.model.Sale;
 
 public class Sales {
-
+	private Validator validator = Validator.getValidator();
 	private SaleController saleCtrl;
 	private Facade facade;
 	Scanner reader = new Scanner(System.in);
@@ -306,18 +307,31 @@ public class Sales {
 	}
 
 	public Client clientResgister() {
-
-		Client client = new Client();
-
+		String nome;
+		String telefone;
+		String endereco;
+		boolean n = true;
+		
+		do {
 		System.out.print("Nome: ");
-		client.setName(reader.nextLine());
-
+		nome = reader.nextLine();
+		n = validator.validarNome(nome);
+		}while(n==false);
+		
+		do {
 		System.out.print("Telefone: ");
-		client.setPhoneNumber(reader.next());
-
+		telefone = reader.next();
+		n = validator.validarnumero(telefone);
+		}while(n==false);
+		
+		do {
 		System.out.print("Endereço: ");
 		reader.nextLine();
-		client.setAddress(reader.nextLine());
+		endereco = reader.nextLine();
+		n = validator.validarEndereco(endereco);
+		}while(n==false);
+		
+		Client client = new Client(nome, endereco, telefone);
 
 		return client;
 	}
