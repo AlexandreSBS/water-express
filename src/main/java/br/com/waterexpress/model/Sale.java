@@ -1,6 +1,8 @@
 package br.com.waterexpress.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -8,8 +10,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import br.com.waterexpress.enums.PaymentMethod;
@@ -27,9 +29,8 @@ public class Sale {
 	@ManyToOne
 	private Client client;
 	
-	@ManyToOne
-	private Item item;
-	private int quantity;
+	@OneToMany
+	private List<Item> items = new ArrayList<Item>();
 	
 	@Enumerated(EnumType.STRING)
 	private PaymentMethod paymentMethod;
@@ -48,11 +49,10 @@ public class Sale {
 		
 	}
 
-	public Sale(Client client, Item itens, int quantity, PaymentMethod paymentMethods) {
+	public Sale(Client client, List<Item> itens, PaymentMethod paymentMethods) {
 		
 		this.client = client;
-		this.item = itens;
-		this.quantity = quantity;
+		this.items = itens;
 		this.paymentMethod = paymentMethods;
 		this.totalValue = totalValue();
 		date = LocalDateTime.now();
@@ -61,12 +61,15 @@ public class Sale {
 
 	public double totalValue() {
 		
-		return item.getProduct().getPrice() * quantity;
-	}
-	public static double totalValue( double price, int quantity) {
+		double total = 0;
 		
-		return price * quantity;
+		for (Item item : items) {
+			total += item.getProduct().getPrice()* item.getQuantity();
+		}
+		
+		return total;
 	}
+
 
 	@Override
 	public String toString() {
@@ -76,8 +79,12 @@ public class Sale {
 		sb.append("------------------------------------------------------------------\n");
 		sb.append("Id: " + id);
 		sb.append("\nCliente: " + client);
-		sb.append("\nItens: " + item);
-		sb.append(" | Quant: " + quantity);
+		sb.append("\nItens:");
+		for (Item item : items) {
+			sb.append("------------------------------------------------------------------\n");
+			sb.append(item);
+		}
+		sb.append("------------------------------------------------------------------\n");
 		sb.append("\nTotal: R$ " + totalValue);
 		sb.append(" | " + paymentMethod);
 		sb.append(" | " + status);
@@ -97,14 +104,7 @@ public class Sale {
 		this.paymentMethod = paymentMethods;
 	}
 
-	// Product's get/set
-	public Item getItem() {
-		return item;
-	}
 
-	public void setItem(Item itens) {
-		this.item = itens;
-	}
 
 	// Status's get/set
 	public SaleStatus getStatus() {
@@ -142,15 +142,6 @@ public class Sale {
 		this.client = client;
 	}
 
-	// Quantity's get/set
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-
 	// Date's get/set
 	public LocalDateTime getDate() {
 		return date;
@@ -160,4 +151,21 @@ public class Sale {
 		this.date = date;
 	}
 
+	public List<Item> getItems() {
+		return items;
+	}
+
+	public void setItems(List<Item> items) {
+		this.items = items;
+	}
+
+	public PaymentMethod getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(PaymentMethod paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+	
+	
 }

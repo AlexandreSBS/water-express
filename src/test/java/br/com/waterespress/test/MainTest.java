@@ -15,12 +15,7 @@ public class MainTest {
 
 	public static void main(String[] args) {
 		
-		try {
-			Sales sales = new Sales();
-		} catch (FontFormatException e) {
-			
-			System.out.println((e.getMessage()));
-		}
+		Sales sales = new Sales();
 ;		
 	}
 

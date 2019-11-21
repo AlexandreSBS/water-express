@@ -12,7 +12,6 @@ import br.com.waterexpress.model.Item;
 
 public class ItemDAO implements Operacoes<Item> {
 
-	private List<Item> result = new ArrayList<Item>();
 	private SessionFactory sessionFactory;
 	private static ItemDAO instance;
 

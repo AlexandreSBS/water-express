@@ -45,7 +45,7 @@ public class Facade {
 		return saleController.getById(id);
 	}
 
-	public List<Sale> saleListAll() {
+	public List<Sale> saleListAll() throws Exception {
 
 		return saleController.listAll();
 	}

@@ -131,30 +131,31 @@ public class Sales {
 
 	public void saleEdit() {
 
-		System.out.println("******    Edit Sale    ******");
+		int id = 0;
+
+		System.out.println("*********************************");
+		System.out.println("********    Edit Sale    ********");
+		System.out.println("*********************************");
 		System.out.println();
 
 		List<Sale> noPosted = facade.saleListProcessingSales();
 
+		Sales.listar(noPosted);
+
 		if (noPosted != null) {
 			System.out.println("Selecione a Venda (ID):");
-			
+
 			try {
-				int id = reader.nextInt();
+				id = reader.nextInt();
 			} catch (Exception e) {
-				
-				System.out.println("++++++++++++++++++++++++++");
-				System.out.println("|         ERRO!!!        |");
-				System.out.println("|     Insira Um Núme     |");
-				System.out.println("++++++++++++++++++++++++++");
-				System.out.println();
+
+				getIntMessageError();
 			}
-			
+
 			reader.nextLine();
 
-			Sale sale = sale();
+			facade.saleUpdate(facade.saleGetById(id));
 
-			// saleCtrl.updateSaleById(id, sale, noPosted);
 		} else {
 			System.out.println("Sem vendas com entrega pendente");
 			System.out.println();
@@ -168,19 +169,18 @@ public class Sales {
 		System.out.println("*********************************");
 		System.out.println();
 
-		List<Sale> sales = saleCtrl.listAll();
+		List<Sale> sales = facade.saleListProcessingSales();
 
 		if (sales != null) {
-			for (Sale sale : sales) {
 
-				System.out.println(sale);
-			}
+			Sales.listar(sales);
+
 			System.out.print("Selecione venda (ID):");
 			int id = reader.nextInt();
 
 			try {
 
-				facade.saleCancel(saleCtrl.getById(id));
+				facade.saleCancel(facade.saleGetById(id));
 
 			} catch (SaleException e) {
 
@@ -206,13 +206,21 @@ public class Sales {
 
 		switch (option) {
 		case 1:
-			listAllPrint();
+			try {
+				
+				listar(facade.saleListAll());
+				
+			} catch (Exception e) {
+
+				System.out.println(e.getMessage());
+			}
 			break;
 		case 2:
-			listPayment();
+			PaymentMethod pm = pmRegister();
+			listar(facade.saleListByPaymentMethod(pm));
 			break;
 		case 3:
-			listBrands();
+			// TODO tá quebrado (por enquanto kkk)
 			break;
 		default:
 			System.out.println("Opção Invalida");
@@ -221,7 +229,7 @@ public class Sales {
 
 	public void printCompleteOrders() {
 
-		List<Sale> ProcessingSales = saleCtrl.listProcessingSales();
+		List<Sale> ProcessingSales = facade.saleListProcessingSales();
 
 		if (ProcessingSales != null) {
 
@@ -233,7 +241,7 @@ public class Sales {
 
 			case "S":
 
-				saleCtrl.changeToPosted(ProcessingSales);
+				facade.saleChangeToPosted(ProcessingSales);
 
 				System.out.println("******************************");
 				System.out.println("| Ação realizada com sucesso |");
@@ -277,20 +285,23 @@ public class Sales {
 		}
 
 		System.out.println("*********************************");
-		System.out.println("Valor Da Compra: R$" + Sale.totalValue(product.getPrice(), quant));
+		// System.out.println("Valor Da Compra: R$" + Sale.Value(product.getPrice(),
+		// quant));
 		System.out.println("*********************************");
 
 		PaymentMethod pm;
 		try {
+
 			pm = pmRegister();
+
 		} catch (SaleException e) {
 
 			e.printStackTrace();
 		}
 
-		Sale sale = new Sale(client, product, quant, pm);
+		// Sale sale = new Sale(client, product, quant, pm);
 
-		return sale;
+		return null;
 
 	}
 
@@ -317,15 +328,15 @@ public class Sales {
 		System.out.println("***** Selecione Um Produto *****");
 		System.out.println();
 
-		// saleCtrl.productCtrl.getProducts();
+		Sales.listar(facade.productListAll());
 
 		System.out.print("Selecione o produto (ID): ");
+
 		int id = reader.nextInt();
 
-		// Product product = saleCtrl.productCtrl.getProduct(id);
+		Product product = facade.productGetById(id);
 
-		return null;
-
+		return product;
 	}
 
 	public int quantityregister() throws SaleException {
@@ -335,76 +346,56 @@ public class Sales {
 		int quantity = reader.nextInt();
 
 		if (quantity > 0) {
+
 			return quantity;
+
 		} else {
+
 			throw new SaleException("VALOR NEGATIVO!");
 		}
 	}
 
 	public PaymentMethod pmRegister() throws SaleException {
+		int pm = 0;
 
-		System.out.println("Método de Pagamento");
-		System.out.println("1 - Dinheiro");
-		System.out.println("2 - Cartão");
-
+		System.out.println("*********************************");
+		System.out.println("*      MÉTODO DE PAGAMENTO      *");
+		System.out.println("* 1 - Dinheiro                  *");
+		System.out.println("* 2 - Cartão                    *");
+		System.out.println("*********************************");
 		try {
 
-			int pm = reader.nextInt();
+			pm = reader.nextInt();
 
-			switch (pm) {
-			case 1:
-				return PaymentMethod.DINHEIRO;
-			case 2:
-				return PaymentMethod.CARTAO;
-			default:
-				throw new SaleException("A opção " + pm + " não existe!");
-			}
-		} catch (Exception e) { // TODO Colocar erro específico
+		} catch (Exception e) {
 
-			System.out.println("Erro: " + e.getMessage());
+			getIntMessageError();
 		}
+
+		switch (pm) {
+		case 1:
+			return PaymentMethod.DINHEIRO;
+		case 2:
+			return PaymentMethod.CARTAO;
+		default:
+			throw new SaleException("A opção " + pm + " não existe!");
+		}
+
 	}
 
 	public Brand brandRegister() throws SaleException {
 
 		System.out.println("********** Marcas **********");
-		listAllBrands();
 
-		System.out.println("Selecione a marca (ID): ");
+		Sales.listar(facade.brandListAll());
+
+		System.out.println();
+		System.out.print("Selecione a marca (ID): ");
 		int id = reader.nextInt();
 
-		return saleCtrl.getBrandByInt(id);
+		return facade.brandGetById(id);
 	}
 
-	public void listAllPrint() {
-
-		List<Sale> list = saleCtrl.listAll();
-
-		if (list != null) {
-
-			for (Sale sales : list) {
-
-				System.out.println(sales);
-			}
-		} else {
-			System.out.println("Sem compras registradas kkk");
-		}
-	}
-
-	public void listPayment() throws SaleException {
-
-		List<Sale> salePayment = saleCtrl.listAll(pmRegister());
-
-		if (salePayment != null) {
-
-			for (Sale sales : salePayment) {
-
-				System.out.println(sales);
-			}
-		} else {
-			System.out.println("Sem registro de vendas.");
-		}
-	}
 
 	/*
 	 * public void listAllBrands() {
@@ -416,19 +407,20 @@ public class Sales {
 	 * System.out.println((brand.ordinal() + 1) + " " + brand); } }
 	 */
 
-	public void listBrands() throws SaleException {
+	public static <T> void listar(List<T> list) {
 
-		List<Sale> saleBrands = saleCtrl.listAll(brandRegister());
-
-		if (saleBrands != null) {
-
-			for (Sale sale : saleBrands) {
-
-				System.out.println(sale);
-			}
-		} else {
-			System.out.println("Sem registro de vendas.");
+		for (T item : list) {
+			System.out.println(item + "\n");
 		}
+	}
+
+	public void getIntMessageError() {
+
+		System.out.println("++++++++++++++++++++++++++");
+		System.out.println("|         ERRO!!!        |");
+		System.out.println("|    Insira Um Número    |");
+		System.out.println("++++++++++++++++++++++++++");
+		System.out.println();
 	}
 
 	// works only on cdm

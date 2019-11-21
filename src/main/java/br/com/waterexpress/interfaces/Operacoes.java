@@ -9,7 +9,7 @@ public interface Operacoes<Object>{
 		//Read
 		public Object getById(int id); 
 		//ReadAll
-		public  List<Object> listAll();
+		public  List<Object> listAll() throws Exception;
 		//Update
 		public void update(Object register);
 		//Delete

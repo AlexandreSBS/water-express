@@ -16,7 +16,7 @@ public class Item {
 	private int quantity;
 	@ManyToOne
 	private Product product;
-	
+
 	public Item() {
 	}
 
@@ -52,10 +52,7 @@ public class Item {
 
 	@Override
 	public String toString() {
-		return product + " - "+quantity + " units";
+		return product + " - " + quantity + " unidade";
 	}
-	
-	
-	
-	
+
 }

@@ -13,7 +13,7 @@ import br.com.waterexpress.interfaces.Operacoes;
 import br.com.waterexpress.model.Brand;
 import br.com.waterexpress.model.Sale;
 
-public class SaleController implements Operacoes<Sale>{
+public class SaleController implements Operacoes<Sale> {
 
 	private static SaleController instance;
 	public ProductController productCtrl;
@@ -34,70 +34,79 @@ public class SaleController implements Operacoes<Sale>{
 
 		return instance;
 	}
-	
+
 	public void insert(Sale register) {
-		
+
 		dao.insert(register);
 	}
 
 	public Sale getById(int id) {
-		
+
 		return dao.getById(id);
 	}
 
-	public List<Sale> listAll() {
+	public List<Sale> listAll() throws Exception {
+
+		List<Sale> sales = dao.listAll();
 		
-		return dao.listAll();
+		if (sales != null) {
+			return sales;
+		}
+		else {
+			throw new Exception("Não existe compras registradas");
+		}
+		
 	}
-	
+
 	public List<Sale> listByPaymentMethod(PaymentMethod pm) {
 
 		return dao.listByPaymentMethod(pm);
 	}
 
-	public List<Sale> listByBrand(Brand brand){
-		
+	public List<Sale> listByBrand(Brand brand) {
+
 		return dao.listByBrand(brand);
 	}
-	
+
 	public List<Sale> listProcessingSales() {
-		
-		return dao.listProcessingSales(); 
+
+		return dao.listProcessingSales();
 	}
 
 	public void changeToPosted(List<Sale> noPosteds) {
-		
+
 		for (Sale sale : noPosteds) {
-			
+
 			sale.setStatus(SaleStatus.POSTED);
-			
+
 			dao.update(sale);
 		}
 
 	}
-	
+
 	public void cancel(Sale sale) throws SaleException {
-		
-		 if (onLimitTime(sale)){
-			 
-			 sale.setStatus(SaleStatus.CANCELLED);
-			 
-			 dao.update(sale);
-		 }	 
-		 
-		 throw new SaleException("O tempo para cancelar a venda expirou");
+
+		if (onLimitTime(sale)) {
+
+			sale.setStatus(SaleStatus.CANCELLED);
+
+			dao.update(sale);
+		} else {
+
+			throw new SaleException("O tempo para cancelar a venda expirou");
+		}
 	}
 
 	public void update(Sale register) {
-		
-		if(register.getStatus() == SaleStatus.PROCESSING) {
-			
+
+		if (register.getStatus() == SaleStatus.PROCESSING) {
+
 			dao.update(register);
 		}
 	}
 
 	public void delete(int id) {
-		dao.delete(id);		
+		dao.delete(id);
 	}
 
 	public boolean onLimitTime(Sale sale) {
