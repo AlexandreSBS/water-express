@@ -1,22 +1,24 @@
 package br.com.waterexpress.view;
 
-import java.awt.FontFormatException;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 import br.com.waterexpress.controller.Facade;
-import br.com.waterexpress.controller.SaleController;
-import br.com.waterexpress.controller.Validator;
 import br.com.waterexpress.enums.PaymentMethod;
 import br.com.waterexpress.exception.SaleException;
 import br.com.waterexpress.model.Brand;
 import br.com.waterexpress.model.Client;
+import br.com.waterexpress.model.OrderItem;
 import br.com.waterexpress.model.Product;
 import br.com.waterexpress.model.Sale;
+import br.com.waterexpress.util.Print;
+import br.com.waterexpress.util.Validator;
 
 public class Sales {
+
 	private Validator validator = Validator.getValidator();
-	private SaleController saleCtrl;
 	private Facade facade;
 	Scanner reader = new Scanner(System.in);
 
@@ -42,27 +44,23 @@ public class Sales {
 
 			try {
 				System.out.println();
-				System.out.println("******  Water Express  ******");
-				System.out.println("| 1: Executar venda         |");
-				System.out.println("| 2: Editar venda           |");
-				System.out.println("| 3: Cancelar venda         |");
-				System.out.println("| 4: Registro das vendas    |");
-				System.out.println("| 5: Finalizar os pedidos   |");
-				System.out.println("| 6: Fechar o Programa      |");
-				System.out.println("*****************************");
+				System.out.println("********  WATER EXPRESS  ********");
+				System.out.println("| 1: Executar venda             |");
+				System.out.println("| 2: Editar venda               |");
+				System.out.println("| 3: Cancelar venda             |");
+				System.out.println("| 4: Registro das vendas        |");
+				System.out.println("| 5: Finalizar os pedidos       |");
+				System.out.println("| 6: Fechar o Programa          |");
+				System.out.println("*********************************");
 				System.out.println();
 				System.out.print("Opção: ");
 				try {
 
 					homeOptions = reader.nextInt();
 
-				} catch (Exception e) {
+				} catch (InputMismatchException e) {
 
-					System.out.println("++++++++++++++++++++++++++");
-					System.out.println("|          ERRO!!!       |");
-					System.out.println("| Insira Um Número 1 - 6 |");
-					System.out.println("++++++++++++++++++++++++++");
-					System.out.println();
+					Print.getIntMessageError(1, 6);
 
 				} finally {
 
@@ -92,16 +90,14 @@ public class Sales {
 					homeOptions = 0;
 					break;
 				default:
-					System.out.println("++++++++++++++++++++++++++");
-					System.out.println("|          ERRO!!!       |");
-					System.out.println("| Insira Um Número 1 - 6 |");
-					System.out.println("++++++++++++++++++++++++++");
-					System.out.println();
+
+					Print.getIntMessageError(1, 6);
 					break;
 				}
-				// TODO Clear method
+
 			} catch (Exception e) {
-				// TODO implementar a exception
+
+				System.out.println(e.getMessage());
 			}
 		}
 	}
@@ -114,6 +110,7 @@ public class Sales {
 		System.out.println();
 
 		try {
+
 			facade.saleInsert(sale());
 
 			System.out.println("*********************************");
@@ -141,7 +138,7 @@ public class Sales {
 
 		List<Sale> noPosted = facade.saleListProcessingSales();
 
-		Sales.listar(noPosted);
+		Print.list(noPosted);
 
 		if (noPosted != null) {
 			System.out.println("Selecione a Venda (ID):");
@@ -150,7 +147,7 @@ public class Sales {
 				id = reader.nextInt();
 			} catch (Exception e) {
 
-				getIntMessageError();
+				Print.getIntMessageError();
 			}
 
 			reader.nextLine();
@@ -158,7 +155,7 @@ public class Sales {
 			facade.saleUpdate(facade.saleGetById(id));
 
 		} else {
-			System.out.println("Sem vendas com entrega pendente");
+			System.out.println("Não Há vendas com entrega pendente");
 			System.out.println();
 		}
 	}
@@ -174,7 +171,7 @@ public class Sales {
 
 		if (sales != null) {
 
-			Sales.listar(sales);
+			Print.list(sales);
 
 			System.out.print("Selecione venda (ID):");
 			int id = reader.nextInt();
@@ -208,17 +205,17 @@ public class Sales {
 		switch (option) {
 		case 1:
 			try {
-				
-				listar(facade.saleListAll());
-				
+
+				Print.list(facade.saleListAll());
+
 			} catch (Exception e) {
 
 				System.out.println(e.getMessage());
 			}
 			break;
 		case 2:
-			PaymentMethod pm = pmRegister();
-			listar(facade.saleListByPaymentMethod(pm));
+			PaymentMethod pm = registerPaymentMethod();
+			Print.list(facade.saleListByPaymentMethod(pm));
 			break;
 		case 3:
 			// TODO tá quebrado (por enquanto kkk)
@@ -265,84 +262,110 @@ public class Sales {
 
 	public Sale sale() {
 
-		Client client = clientResgister();
-		facade.clientInsert(client);
-		Product product;
+		Client client = resgisterClient();
+		List<OrderItem> itens = registerItens();
+		PaymentMethod method = null;
 
 		try {
 
-			product = productResgister();
+			method = registerPaymentMethod();
 
 		} catch (SaleException e) {
 
 			System.out.println(e.getMessage());
 		}
 
-		int quant;
-		try {
-			quant = quantityregister();
-		} catch (SaleException e) {
-			System.out.println("Erro: " + e.getMessage());
-		}
+		Sale sale = new Sale(client, itens, method);
 
 		System.out.println("*********************************");
-		// System.out.println("Valor Da Compra: R$" + Sale.Value(product.getPrice(),
-		// quant));
+		System.out.println("Valor ToTal: " + sale.getTotalValue());
 		System.out.println("*********************************");
 
-		PaymentMethod pm;
-		try {
-
-			pm = pmRegister();
-
-		} catch (SaleException e) {
-
-			e.printStackTrace();
-		}
-
-		// Sale sale = new Sale(client, product, quant, pm);
-
-		return null;
+		return sale;
 
 	}
 
-	public Client clientResgister() {
+	private List<OrderItem> registerItens() {
+
+		List<OrderItem> itens = new ArrayList<OrderItem>();
+		String option = null;
+
+		do {
+			itens.add(registerOrderItem());
+
+			System.out.print("Inserir mais um produto (S ou N)?");
+			option = reader.nextLine();
+
+		} while (option.equalsIgnoreCase("S"));
+
+		
+		
+		return itens;
+	}
+
+	private OrderItem registerOrderItem() {
+		
+		int quantity = 0;
+		Product product = resgisterProduct();
+		
+		try {
+			quantity = registerQuantity();
+			
+		} catch (SaleException e) {
+			
+			System.out.println(e.getMessage());
+		}
+		
+		OrderItem orderItem = new OrderItem(quantity, product);
+		facade.OrderItemInsert(orderItem);
+		
+		return orderItem;
+	}
+
+	public Client resgisterClient() {
+
 		String nome;
 		String telefone;
 		String endereco;
-		boolean n = true;
-		
+
 		do {
-		System.out.print("Nome: ");
-		nome = reader.nextLine();
-		n = validator.validarNome(nome);
-		}while(n==false);
-		
+			System.out.print("Nome: ");
+
+			nome = reader.nextLine();
+
+		} while (!validator.validarNome(nome));
+
 		do {
-		System.out.print("Telefone: ");
-		telefone = reader.next();
-		n = validator.validarnumero(telefone);
-		}while(n==false);
-		
+			System.out.print("Telefone: ");
+
+			telefone = reader.next();
+
+		} while (!validator.validarnumero(telefone));
+
 		do {
-		System.out.print("Endereço: ");
-		reader.nextLine();
-		endereco = reader.nextLine();
-		n = validator.validarEndereco(endereco);
-		}while(n==false);
-		
+			System.out.print("Endereço: ");
+			reader.nextLine();
+
+			endereco = reader.nextLine();
+
+		} while (!validator.validarEndereco(endereco));
+
 		Client client = new Client(nome, endereco, telefone);
+
+		facade.clientInsert(client);
 
 		return client;
 	}
 
-	public Product productResgister() throws SaleException {
+	public Product resgisterProduct() {
 
 		System.out.println();
-		System.out.println("***** Selecione Um Produto *****");
+		System.out.println("*********************************");
+		System.out.println("****** Selecione o Produto ******");
+		System.out.println("*********************************");
 		System.out.println();
 
-		Sales.listar(facade.productListAll());
+		Print.list(facade.productListAll());
 
 		System.out.print("Selecione o produto (ID): ");
 
@@ -353,12 +376,18 @@ public class Sales {
 		return product;
 	}
 
-	public int quantityregister() throws SaleException {
-
+	public int registerQuantity() throws SaleException {
+		int quantity = 0;
+		
 		System.out.print("Quantidade: ");
-
-		int quantity = reader.nextInt();
-
+		try {
+			quantity = reader.nextInt();
+			
+		}catch (InputMismatchException e) {
+			
+			Print.getIntMessageError();
+		}
+		
 		if (quantity > 0) {
 
 			return quantity;
@@ -369,72 +398,49 @@ public class Sales {
 		}
 	}
 
-	public PaymentMethod pmRegister() throws SaleException {
-		int pm = 0;
+	public PaymentMethod registerPaymentMethod() throws SaleException {
+		int option = 0;
 
 		System.out.println("*********************************");
 		System.out.println("*      MÉTODO DE PAGAMENTO      *");
 		System.out.println("* 1 - Dinheiro                  *");
 		System.out.println("* 2 - Cartão                    *");
 		System.out.println("*********************************");
-		try {
 
-			pm = reader.nextInt();
+		try {
+			option = reader.nextInt();
 
 		} catch (Exception e) {
 
-			getIntMessageError();
+			Print.getIntMessageError();
 		}
 
-		switch (pm) {
+		switch (option) {
 		case 1:
 			return PaymentMethod.DINHEIRO;
 		case 2:
 			return PaymentMethod.CARTAO;
 		default:
-			throw new SaleException("A opção " + pm + " não existe!");
+			throw new SaleException("A opção " + option + " não existe!");
 		}
 
 	}
 
 	public Brand brandRegister() throws SaleException {
 
-		System.out.println("********** Marcas **********");
+		System.out.println("*********************************");
+		System.out.println("***********  Marcas  ************");
+		System.out.println("*********************************");
 
-		Sales.listar(facade.brandListAll());
+		Print.list(facade.brandListAll());
 
 		System.out.println();
+
 		System.out.print("Selecione a marca (ID): ");
 		int id = reader.nextInt();
+		System.out.println();
 
 		return facade.brandGetById(id);
-	}
-
-
-	/*
-	 * public void listAllBrands() {
-	 * 
-	 * List<Brands> brandList = saleCtrl.listBrands();
-	 * 
-	 * for (Brand brand : brandList) {
-	 * 
-	 * System.out.println((brand.ordinal() + 1) + " " + brand); } }
-	 */
-
-	public static <T> void listar(List<T> list) {
-
-		for (T item : list) {
-			System.out.println(item + "\n");
-		}
-	}
-
-	public void getIntMessageError() {
-
-		System.out.println("++++++++++++++++++++++++++");
-		System.out.println("|         ERRO!!!        |");
-		System.out.println("|    Insira Um Número    |");
-		System.out.println("++++++++++++++++++++++++++");
-		System.out.println();
 	}
 
 	// works only on cdm

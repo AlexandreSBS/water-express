@@ -7,10 +7,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Sale")
+@Table(name = "Brand")
 public class Brand {
 	
 	public Brand() {}
+	
+
+	public Brand(String nome) {
+		super();
+		this.nome = nome;
+	}
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,6 +39,12 @@ public class Brand {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+
+	@Override
+	public String toString() {
+		return nome;
 	}
 	
 }

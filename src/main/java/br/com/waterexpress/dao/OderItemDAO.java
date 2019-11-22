@@ -8,27 +8,27 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import br.com.waterexpress.interfaces.Operacoes;
-import br.com.waterexpress.model.Item;
+import br.com.waterexpress.model.OrderItem;
 
-public class ItemDAO implements Operacoes<Item> {
+public class OderItemDAO implements Operacoes<OrderItem> {
 
 	private SessionFactory sessionFactory;
-	private static ItemDAO instance;
+	private static OderItemDAO instance;
 
-	private ItemDAO() {
+	private OderItemDAO() {
 		
 		sessionFactory = new Configuration().configure().buildSessionFactory();
 	}
 	
-	public static ItemDAO getItemDAO() {
+	public static OderItemDAO getItemDAO() {
 		if(instance == null)
-			instance = new ItemDAO();
+			instance = new OderItemDAO();
 		
 		return instance;
 	}
 	
 	@Override
-	public void insert(Item register) {
+	public void insert(OrderItem register) {
 		
 		Session session = sessionFactory.openSession();
 		
@@ -39,12 +39,12 @@ public class ItemDAO implements Operacoes<Item> {
 	}
 
 	@Override
-	public Item getById(int id) {
+	public OrderItem getById(int id) {
 		Session session = sessionFactory.openSession();
 		
 		session.beginTransaction();		
 		
-		Item item = session.get(Item.class, id);	
+		OrderItem item = session.get(OrderItem.class, id);	
 		
 		session.getTransaction().commit();
 		session.close();
@@ -53,9 +53,9 @@ public class ItemDAO implements Operacoes<Item> {
 	}
 
 	@Override
-	public List<Item> listAll() {
+	public List<OrderItem> listAll() {
 		
-		List<Item> result = new ArrayList<Item>();
+		List<OrderItem> result = new ArrayList<OrderItem>();
 		Session session = sessionFactory.openSession();
 		
 		result = session.createQuery("from Item").list();
@@ -66,7 +66,7 @@ public class ItemDAO implements Operacoes<Item> {
 	}
 
 	@Override
-	public void update(Item register) {
+	public void update(OrderItem register) {
 		
 		Session session = sessionFactory.openSession();
 		
@@ -83,7 +83,7 @@ public class ItemDAO implements Operacoes<Item> {
 		
 		session.beginTransaction();
 		
-		Item item = session.get(Item.class, id);
+		OrderItem item = session.get(OrderItem.class, id);
 		
 		session.delete(item);
 		session.getTransaction().commit();

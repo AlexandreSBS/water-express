@@ -17,40 +17,39 @@ import javax.persistence.Table;
 import br.com.waterexpress.enums.PaymentMethod;
 import br.com.waterexpress.enums.SaleStatus;
 
-
 @Entity
 @Table(name = "Sale")
 public class Sale {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
+
 	@ManyToOne
 	private Client client;
-	
+
 	@OneToMany
-	private List<Item> items = new ArrayList<Item>();
-	
+	private List<OrderItem> items = new ArrayList<OrderItem>();
+
 	@Enumerated(EnumType.STRING)
 	private PaymentMethod paymentMethod;
-	
+
 	private double totalValue;
 
 	private LocalDateTime date;
-	
+
 	@Enumerated(EnumType.STRING)
 	private SaleStatus status;
 
 	public Sale() {
-		
+
 		date = LocalDateTime.now();
 		status = SaleStatus.PROCESSING;
-		
+
 	}
 
-	public Sale(Client client, List<Item> itens, PaymentMethod paymentMethods) {
-		
+	public Sale(Client client, List<OrderItem> itens, PaymentMethod paymentMethods) {
+
 		this.client = client;
 		this.items = itens;
 		this.paymentMethod = paymentMethods;
@@ -60,27 +59,26 @@ public class Sale {
 	}
 
 	public double totalValue() {
-		
+
 		double total = 0;
-		
-		for (Item item : items) {
-			total += item.getProduct().getPrice()* item.getQuantity();
+
+		for (OrderItem item : items) {
+			total += item.getProduct().getPrice() * item.getQuantity();
 		}
-		
+
 		return total;
 	}
 
-
 	@Override
 	public String toString() {
-		
+
 		StringBuilder sb = new StringBuilder();
-		
+
 		sb.append("------------------------------------------------------------------\n");
 		sb.append("Id: " + id);
 		sb.append("\nCliente: " + client);
 		sb.append("\nItens:");
-		for (Item item : items) {
+		for (OrderItem item : items) {
 			sb.append("------------------------------------------------------------------\n");
 			sb.append(item);
 		}
@@ -89,22 +87,20 @@ public class Sale {
 		sb.append(" | " + paymentMethod);
 		sb.append(" | " + status);
 		sb.append("\n------------------------------------------------------------------");
-		
+
 		return sb.toString();
 	}
 
 	// PaymentMethods's get/set
 	public PaymentMethod getPaymentMethods() {
-		
+
 		return paymentMethod;
 	}
 
 	public void setPaymentMethods(PaymentMethod paymentMethods) {
-		
+
 		this.paymentMethod = paymentMethods;
 	}
-
-
 
 	// Status's get/set
 	public SaleStatus getStatus() {
@@ -151,11 +147,11 @@ public class Sale {
 		this.date = date;
 	}
 
-	public List<Item> getItems() {
+	public List<OrderItem> getItems() {
 		return items;
 	}
 
-	public void setItems(List<Item> items) {
+	public void setItems(List<OrderItem> items) {
 		this.items = items;
 	}
 
@@ -166,6 +162,5 @@ public class Sale {
 	public void setPaymentMethod(PaymentMethod paymentMethod) {
 		this.paymentMethod = paymentMethod;
 	}
-	
-	
+
 }

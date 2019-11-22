@@ -8,8 +8,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Item")
-public class Item {
+@Table(name = "OrderItem")
+public class OrderItem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
@@ -17,11 +17,10 @@ public class Item {
 	@ManyToOne
 	private Product product;
 
-	public Item() {
+	public OrderItem() {
 	}
 
-	public Item(int id, int quantity, Product product) {
-		this.id = id;
+	public OrderItem(int quantity, Product product) {
 		this.quantity = quantity;
 		this.product = product;
 	}

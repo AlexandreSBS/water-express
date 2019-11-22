@@ -7,7 +7,7 @@
 	<session-factory>
 		<property name="connection.driver_class">org.hsqldb.jdbc.JDBCDriver</property>
 		<property name="connection.url">jdbc:hsqldb:file:C:\DB\Waterexpress;hsqldb.lock_file=false</property>
-		<property name="connection.username">sa</property>
+		<property name="connection.username">SA</property>
 		<property name="connection.password"></property>
 
 		<!-- JDBC connection pool (use the built-in) -->
@@ -26,14 +26,14 @@
 		<property name="show_sql">true</property>
 
 		<!-- Drop and re-create the database schema on startup -->
-		<property name="hbm2ddl.auto">create</property>
+		<property name="hbm2ddl.auto">update</property>
 		
 
 		<mapping class="br.com.waterexpress.model.Brand" />
 		<mapping class="br.com.waterexpress.model.Client" />
 		<mapping class="br.com.waterexpress.model.Sale" />
 		<mapping class="br.com.waterexpress.model.Product" />
-		<mapping class="br.com.waterexpress.model.Item" />
+		<mapping class="br.com.waterexpress.model.OrderItem" />
 
 	</session-factory>
 	

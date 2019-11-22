@@ -12,7 +12,6 @@ import br.com.waterexpress.model.Product;
 
 public class ProductDAO implements Operacoes<Product> {
 
-	private List<Product> product = new ArrayList<Product>();
 	private SessionFactory sessionFactory;
 	private static ProductDAO instance;
 

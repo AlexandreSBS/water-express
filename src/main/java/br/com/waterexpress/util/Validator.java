@@ -1,4 +1,4 @@
-package br.com.waterexpress.controller;
+package br.com.waterexpress.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,6 +38,7 @@ public class Validator {
 		Pattern regex = Pattern.compile(padrao);
 
 		Matcher resultado = regex.matcher(endereco);
+		
 		if (!(resultado.matches())) {
 			System.out.println("O endereco " + endereco + " não é válido");
 			System.out.println("+++++++++++++++++++++++++++++++");
