@@ -49,7 +49,7 @@ public class Validator {
 	}
 
 	public boolean validarnumero(String numero) {
-		String padrao = "^[0-9]{9}$";
+		String padrao = "^[0-9()-]{9,}$";
 		Pattern regex = Pattern.compile(padrao);
 		
 		Matcher resultado = regex.matcher(numero);

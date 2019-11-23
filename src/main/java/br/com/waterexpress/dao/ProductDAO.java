@@ -17,7 +17,7 @@ public class ProductDAO implements Operacoes<Product> {
 
 	private ProductDAO() {
 		
-		sessionFactory = new Configuration().configure().buildSessionFactory();
+		sessionFactory = FactorySession.getFactorySession().getSessionFactory();
 	}
 	
 	public static ProductDAO getProductDAO() {

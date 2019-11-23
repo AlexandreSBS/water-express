@@ -4,9 +4,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,7 +30,7 @@ public class Sale {
 	@ManyToOne
 	private Client client;
 
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	private List<OrderItem> items = new ArrayList<OrderItem>();
 
 	@Enumerated(EnumType.STRING)
@@ -77,12 +79,12 @@ public class Sale {
 		sb.append("------------------------------------------------------------------\n");
 		sb.append("Id: " + id);
 		sb.append("\nCliente: " + client);
-		sb.append("\nItens:");
+		sb.append("\nITENS:\n");
 		for (OrderItem item : items) {
-			sb.append("------------------------------------------------------------------\n");
+			sb.append("\n------------------------------------------------------------------\n");
 			sb.append(item);
 		}
-		sb.append("------------------------------------------------------------------\n");
+		sb.append("\n------------------------------------------------------------------\n");
 		sb.append("\nTotal: R$ " + totalValue);
 		sb.append(" | " + paymentMethod);
 		sb.append(" | " + status);

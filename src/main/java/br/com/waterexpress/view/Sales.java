@@ -1,5 +1,8 @@
 package br.com.waterexpress.view;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -21,6 +24,7 @@ public class Sales {
 	private Validator validator = Validator.getValidator();
 	private Facade facade;
 	Scanner reader = new Scanner(System.in);
+	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 	public Sales() {
 
@@ -88,6 +92,9 @@ public class Sales {
 				case 5:
 					printCompleteOrders();
 					homeOptions = 0;
+					break;
+				case 6:
+					
 					break;
 				default:
 
@@ -230,7 +237,8 @@ public class Sales {
 		List<Sale> ProcessingSales = facade.saleListProcessingSales();
 
 		if (ProcessingSales != null) {
-
+			Print.list(ProcessingSales);
+			
 			System.out.println("Colocar para entregar (S ou N)?");
 
 			String resp = reader.next().toUpperCase();
@@ -294,7 +302,11 @@ public class Sales {
 			itens.add(registerOrderItem());
 
 			System.out.print("Inserir mais um produto (S ou N)?");
-			option = reader.nextLine();
+			try {
+				option = br.readLine();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
 
 		} while (option.equalsIgnoreCase("S"));
 

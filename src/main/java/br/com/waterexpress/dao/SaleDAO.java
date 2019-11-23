@@ -18,7 +18,7 @@ public class SaleDAO implements Operacoes<Sale> {
 	private static SaleDAO instance;
 
 	private SaleDAO() {
-		sessionFactory = new Configuration().configure().buildSessionFactory();
+		sessionFactory = FactorySession.getFactorySession().getSessionFactory();
 	}
 
 	public static SaleDAO getSaleDAO() {
@@ -76,6 +76,8 @@ public class SaleDAO implements Operacoes<Sale> {
 		session.delete(sale);
 		session.getTransaction().commit();
 		session.close();
+		
+		
 	}
 
 	@Override

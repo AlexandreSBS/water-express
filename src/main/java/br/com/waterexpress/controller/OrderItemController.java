@@ -23,8 +23,6 @@ public class OrderItemController implements Operacoes<OrderItem> {
 		
 		return instance;
 	}
-	
-	
 
 	@Override
 	public void insert(OrderItem register) {

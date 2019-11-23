@@ -17,7 +17,7 @@ public class OderItemDAO implements Operacoes<OrderItem> {
 
 	private OderItemDAO() {
 		
-		sessionFactory = new Configuration().configure().buildSessionFactory();
+		sessionFactory = FactorySession.getFactorySession().getSessionFactory();
 	}
 	
 	public static OderItemDAO getItemDAO() {

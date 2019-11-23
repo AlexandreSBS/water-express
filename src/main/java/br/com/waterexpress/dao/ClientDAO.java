@@ -17,7 +17,7 @@ public class ClientDAO implements Operacoes<Client> {
 	private static ClientDAO instance;
 	
 	private ClientDAO() {
-		sessionFactory = new Configuration().configure().buildSessionFactory();
+		sessionFactory = FactorySession.getFactorySession().getSessionFactory();
 	}
 	
 	public static ClientDAO getClient() {

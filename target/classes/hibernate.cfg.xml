@@ -7,7 +7,7 @@
 	<session-factory>
 		<property name="connection.driver_class">org.hsqldb.jdbc.JDBCDriver</property>
 		<property name="connection.url">jdbc:hsqldb:file:C:\DB\Waterexpress;hsqldb.lock_file=false</property>
-		<property name="connection.username">SA</property>
+		<property name="connection.username">sa</property>
 		<property name="connection.password"></property>
 
 		<!-- JDBC connection pool (use the built-in) -->

@@ -9,17 +9,14 @@ import org.hibernate.cfg.Configuration;
 
 import br.com.waterexpress.interfaces.Operacoes;
 import br.com.waterexpress.model.Brand;
-import net.bytebuddy.matcher.IsNamedMatcher;
 
 public class BrandDAO implements Operacoes<Brand> {
 
-	@SuppressWarnings("unused")
-	private List<Brand> client = new ArrayList<Brand>();
 	private SessionFactory sessionFactory;
 	private static BrandDAO instance;
 
 	private BrandDAO() {
-		sessionFactory = new Configuration().configure().buildSessionFactory();
+		sessionFactory = FactorySession.getFactorySession().getSessionFactory();
 	}
 
 	public static BrandDAO getBranDAO() {
@@ -38,6 +35,7 @@ public class BrandDAO implements Operacoes<Brand> {
 		session.save(register);
 		session.getTransaction().commit();
 		session.close();
+	
 	}
 
 	public Brand getById(int id) {
