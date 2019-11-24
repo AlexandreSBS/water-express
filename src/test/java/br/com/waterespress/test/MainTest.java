@@ -13,8 +13,8 @@ public class MainTest {
 		// Scanner reader = new Scanner(System.in)
 
 		// int id = reader.nextInt();
-
-		/*BrandDAO bDAO = BrandDAO.getBranDAO();
+/*
+		BrandDAO bDAO = BrandDAO.getBranDAO();
 
 		ProductDAO dao = ProductDAO.getProductDAO();
 
