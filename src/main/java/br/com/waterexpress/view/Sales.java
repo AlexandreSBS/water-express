@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Scanner;
 
 import br.com.waterexpress.controller.Facade;
 import br.com.waterexpress.enums.PaymentMethod;
@@ -20,7 +19,7 @@ import br.com.waterexpress.util.Print;
 import br.com.waterexpress.util.Validator;
 
 public class Sales {
-	Register register = new Register();
+	EditSale edit = new EditSale();
 	private Validator validator = Validator.getValidator();
 	private Facade facade;
 	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -338,7 +337,7 @@ public class Sales {
 		return itens;
 	}
 
-	private OrderItem registerOrderItem() {
+	public OrderItem registerOrderItem() {
 
 		int quantity = 0;
 		Product product = null;
@@ -424,13 +423,15 @@ public class Sales {
 
 		try {
 			Print.list(facade.productListAll());
-
+			Product product;
+			do {
 			System.out.println();
 			System.out.print("Selecione o produto (ID): ");
 
 			int id = Integer.parseInt(reader.readLine());
 
-			Product product = facade.productGetById(id);
+			product = facade.productGetById(id);
+			}while(product == null);
 			return product;
 
 		} catch (Exception e) {
@@ -597,47 +598,17 @@ public class Sales {
 
 			switch (answer) {
 			case 1:
-				do {
-					System.out.print("Novo Nome: ");
-
-					try {
-						nome = reader.readLine();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-
-				} while (!validator.validarNome(nome));
-				sale.getClient().setName(nome);
+				edit.nameClientEdit(sale, nome);
 				answer = 0;
 				break;
 
 			case 2:
-				do {
-					System.out.print("Novo Telefone: ");
-
-					try {
-						numero = reader.readLine();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-
-				} while (!validator.validarnumero(numero));
-				sale.getClient().setPhoneNumber(numero);
+				edit.phoneClientEdit(sale, numero);
 				answer = 0;
 				break;
 
 			case 3:
-				do {
-					System.out.print("Novo Endereço: ");
-
-					try {
-						endereco = reader.readLine();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-
-				} while (!validator.validarEndereco(endereco));
-				sale.getClient().setAddress(endereco);
+				edit.addressClientEdit(sale, endereco);
 				answer = 0;
 				break;
 
@@ -701,68 +672,16 @@ public class Sales {
 				break;
 
 			case 2:
-				do {
-					System.out.println("Selecione o produto (#):");
-					System.out.println();
-					sale.indexItem();
-					int item = 0;
-					try {
-						item = Integer.parseInt(reader.readLine());
-					} catch (NumberFormatException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					sale.getItems().remove(item);
-					System.out.println("Deseja Remover Outro Produto?(S/N)");
-					try {
-						option = reader.readLine();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				} while (option.equalsIgnoreCase("S"));
+				edit.removeProductCartEdit(sale, option);
 				answer = 0;
 				break;
 
 			case 3:
-				int idAnswer = 0;
-				System.out.println("Selecione o produto (#):");
-				System.out.println();
-				sale.indexItem();
-				System.out.println();
-				System.out.print("Opção:");
-				try {
-					idAnswer = Integer.parseInt(reader.readLine());
-				} catch (NumberFormatException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				System.out.println();
-				int quantidade = 0;
-				System.out.print("Quantidade: ");
-
-				try {
-					quantidade = Integer.parseInt(reader.readLine());
-				} catch (NumberFormatException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				sale.getItems().get(idAnswer).setQuantity(quantidade);
-				System.out.println();
+				edit.quantProductsCartEdit(sale);
 				answer = 0;
 				break;
 
 			case 4:
-
 				break;
 			default:
 				answer = 0;

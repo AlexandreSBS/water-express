@@ -33,6 +33,14 @@ public class Print {
 		
 		System.out.println("****  Não existem registros  ****");
 	}
+	
+	public static void getNumberMessageError() {
 
+		System.out.println("++++++++++++++++++++++++++");
+		System.out.println("|         ERRO!!!         |");
+		System.out.println("| Insira Um Número Válido |");
+		System.out.println("++++++++++++++++++++++++++");
+		System.out.println();
+	}
 
 }
