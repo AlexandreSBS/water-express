@@ -85,13 +85,13 @@ public class Sale {
 		sb.append("******************************************************************\n");
 		sb.append("Id: " + id);
 		sb.append("\nCliente: " + client);
-		sb.append("\nITENS:\n");
+		sb.append("\nITENS:");
 		for (OrderItem item : items) {
 			sb.append("\n------------------------------------------------------------------\n");
 			sb.append(item);
 		}
-		sb.append("\n------------------------------------------------------------------\n");
-		sb.append("\nTotal: R$ " + totalValue());
+		sb.append("\n------------------------------------------------------------------");
+		sb.append("\nTotal: R$ " + String.format("$%,.2f", totalValue()));
 		sb.append(" | " + paymentMethod);
 		sb.append(" | " + status);
 		sb.append("\n******************************************************************");
