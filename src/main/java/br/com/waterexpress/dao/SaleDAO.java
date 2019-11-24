@@ -126,7 +126,7 @@ public class SaleDAO implements Operacoes<Sale> {
 		List<Sale> result = new ArrayList<Sale>();
 		Session session = sessionFactory.openSession();
 
-		String querystring = "from Sale where PaymentMethod = " + pm.toString();
+		String querystring = "from Sale where PaymentMethod = '" + pm.name() + "'";
 		
 		result = session.createQuery(querystring).list();
 

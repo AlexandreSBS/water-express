@@ -57,11 +57,5 @@ public class ProductController implements Operacoes<Product>{
 		dao.delete(id);
 	}
 
-	/*private void popularize() {
-		addProduct(new Product("Garrafão de Água Mineral 20L", Brands.Indaiá, 5.95));
-		addProduct(new Product("Garrafão de Água Mineral 20L", Brands.santajoana, 4.65));
-		addProduct(new Product("Água Mineral 5L", Brands.Indaiá, 2.00));
-		addProduct(new Product("Água Mineral 5L", Brands.santajoana, 1.50));
-	}*/
 
 }
