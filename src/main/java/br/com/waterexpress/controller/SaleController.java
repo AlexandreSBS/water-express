@@ -18,7 +18,7 @@ public class SaleController implements Operacoes<Sale> {
 	private static SaleController instance;
 	public ProductController productCtrl;
 	private SaleDAO dao;
-	private static Duration timeLimit = Duration.ofMinutes(1);
+	private static Duration timeLimit = Duration.ofMinutes(3);
 
 	private SaleController() {
 

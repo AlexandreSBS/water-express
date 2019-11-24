@@ -117,7 +117,6 @@ public class Sales {
 
 			facade.saleInsert(sale());
 
-			
 			System.out.println("*********************************");
 			System.out.println("******  Compra Registrada  ******");
 			System.out.println("*********************************");
@@ -339,22 +338,15 @@ public class Sales {
 
 		int quantity = 0;
 		Product product = null;
-		
+
 		try {
 			product = resgisterProduct();
 		} catch (Exception e) {
-			
+
 			System.out.println(e.getMessage());
 		}
 
-		try {
-			quantity = registerQuantity();
-
-		} catch (SaleException e) {
-			System.out.println();
-			System.out.println(e.getMessage());
-			System.out.println();
-		}
+		quantity = registerQuantity();
 
 		OrderItem orderItem = new OrderItem(quantity, product);
 		facade.OrderItemInsert(orderItem);
@@ -422,14 +414,21 @@ public class Sales {
 		try {
 			Print.list(facade.productListAll());
 			Product product;
+			int id = 0;
 			do {
-			System.out.println();
-			System.out.print("Selecione o produto (ID): ");
-
-			int id = Integer.parseInt(reader.readLine());
-
-			product = facade.productGetById(id);
-			}while(product == null);
+				System.out.println();
+				System.out.print("Selecione o produto (ID): ");
+				try {
+					id = Integer.parseInt(reader.readLine());
+				} catch (NumberFormatException e) {
+					System.out.println();
+					Print.getIntMessageError();
+				}
+				product = facade.productGetById(id);
+				if (product == null) {
+					System.out.println("Escolha Um Produto Válido!");
+				}
+			} while (product == null);
 			return product;
 
 		} catch (Exception e) {
@@ -441,58 +440,65 @@ public class Sales {
 		throw new Exception();
 	}
 
-	public int registerQuantity() throws SaleException {
+	public int registerQuantity() {
 
 		int quantity = 0;
 
-		System.out.print("Quantidade: ");
-		try {
-			quantity = Integer.parseInt(reader.readLine());
+		while (quantity <= 0) {
+			System.out.print("Quantidade: ");
+			try {
+				quantity = Integer.parseInt(reader.readLine());
 
-		} catch (InputMismatchException e) {
+				if (quantity <= 0) {
+					System.out.println();
+					System.out.println("** Quantidade inválida **");
+					System.out.println();
+				}
 
-			Print.getIntMessageError();
+			} catch (NumberFormatException e) {
+
+				System.out.println();
+				Print.getIntMessageError();
+
+			} catch (IOException e) {
+				System.out.println();
+				System.out.println(e.getMessage());
+			}
+
 		}
-		  catch(IOException e) {
-			  e.printStackTrace();
-		  }
-
-		if (quantity > 0) {
-
-			return quantity;
-
-		} else {
-
-			throw new SaleException("****** Quantidade inválida ******");
-		}
+		return quantity;
 	}
 
 	public PaymentMethod registerPaymentMethod() throws SaleException {
 		int option = 0;
+		PaymentMethod paymentMethod = null;
 
-		System.out.println("*********************************");
-		System.out.println("*      MÉTODO DE PAGAMENTO      *");
-		System.out.println("* 1 - Dinheiro                  *");
-		System.out.println("* 2 - Cartão                    *");
-		System.out.println("*********************************");
+		do {
+			System.out.println("*********************************");
+			System.out.println("*      MÉTODO DE PAGAMENTO      *");
+			System.out.println("* 1 - Dinheiro                  *");
+			System.out.println("* 2 - Cartão                    *");
+			System.out.println("*********************************");
 
-		try {
-			option = Integer.parseInt(reader.readLine());
+			System.out.print("Opção:");
+			try {
+				option = Integer.parseInt(reader.readLine());
+				switch (option) {
+				case 1:
+					paymentMethod = PaymentMethod.DINHEIRO;
+					break;
+				case 2:
+					paymentMethod = PaymentMethod.CARTAO;
+					break;
+				default:
+					throw new SaleException("A opção " + option + " não existe!");
+				}
+			} catch (Exception e) {
 
-		} catch (Exception e) {
-
-			Print.getIntMessageError();
-		}
-
-		switch (option) {
-		case 1:
-			return PaymentMethod.DINHEIRO;
-		case 2:
-			return PaymentMethod.CARTAO;
-		default:
-			throw new SaleException("A opção " + option + " não existe!");
-		}
-
+				Print.getIntMessageError();
+			}
+		} while (paymentMethod == null);
+		return paymentMethod;
 	}
 
 	public Brand registerBrand() throws SaleException {
@@ -686,10 +692,10 @@ public class Sales {
 				break;
 			}
 		} while (answer != 4);
-		for(OrderItem test: sale.getItems()) {
+		for (OrderItem test : sale.getItems()) {
 			facade.OrderItemUpdate(test);
 		}
-		
+
 	}
 
 	public void editPaymentField(Sale sale) {
