@@ -1,36 +1,37 @@
 package br.com.waterespress.test;
 
-import br.com.waterexpress.dao.BrandDAO;
-import br.com.waterexpress.dao.ProductDAO;
-import br.com.waterexpress.model.Brand;
-import br.com.waterexpress.model.Product;
 import br.com.waterexpress.view.Sales;
 
 public class MainTest {
 
 	public static void main(String[] args) {
 
-		// Scanner reader = new Scanner(System.in)
-
-		// int id = reader.nextInt();
-/*
-		BrandDAO bDAO = BrandDAO.getBranDAO();
-
-		ProductDAO dao = ProductDAO.getProductDAO();
-
-		Brand brand = new Brand("Indaiá");
-
-		bDAO.insert(brand);
-
-		dao.insert(new Product("Garrafão 20L", brand, 5));*/
-
-		Sales sales = new Sales();
+		/*
+		 * BrandDAO brandDAO = BrandDAO.getBranDAO();
+		 * 
+		 * List<Brand> brands = new ArrayList<Brand>();
+		 * 
+		 * brands.add(new Brand("Indaiá")); brands.add(new Brand("Santa Joana"));
+		 * brands.add(new Brand("Cristal"));
+		 * 
+		 * for (Brand brand : brands) { brandDAO.insert(brand); }
+		 */
 
 		/*
-		 * Brand brand = new Brand("Indaiá");
+		 * BrandDAO brandDAO = BrandDAO.getBranDAO(); ProductDAO productDAO =
+		 * ProductDAO.getProductDAO(); List<Product> products = new
+		 * ArrayList<Product>();
 		 * 
-		 * insert(brand);
+		 * products.add(new Product("Garrafão 20L", brandDAO.getById(2), 7.49));
+		 * products.add(new Product("Garrafão 20L", brandDAO.getById(3), 5));
+		 * products.add(new Product("Garrafão 20L", brandDAO.getById(4), 5.99));
+		 * products.add(new Product("Galão 5L", brandDAO.getById(2), 5.49));
+		 * products.add(new Product("Galão 5L", brandDAO.getById(4), 5.2));
+		 * 
+		 * for (Product product : products) { productDAO.insert(product); }
 		 */
+
+		 Sales sales = new Sales();
 
 	}
 
