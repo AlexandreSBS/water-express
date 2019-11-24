@@ -14,7 +14,7 @@ public class MainTest {
 
 		// int id = reader.nextInt();
 
-		/*BrandDAO bDAO = BrandDAO.getBranDAO();
+		BrandDAO bDAO = BrandDAO.getBranDAO();
 
 		ProductDAO dao = ProductDAO.getProductDAO();
 

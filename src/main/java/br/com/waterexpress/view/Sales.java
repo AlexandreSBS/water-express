@@ -60,7 +60,7 @@ public class Sales {
 				System.out.print("Opção: ");
 				try {
 
-					homeOptions = reader.nextInt();
+					homeOptions = Integer.parseInt(br.readLine());
 
 				} catch (InputMismatchException e) {
 
@@ -68,7 +68,7 @@ public class Sales {
 
 				} finally {
 
-					reader.nextLine();
+					
 				}
 
 				switch (homeOptions) {
@@ -158,8 +158,8 @@ public class Sales {
 			}
 
 			reader.nextLine();
-
-			facade.saleUpdate(facade.saleGetById(id));
+			
+			facade.saleUpdate(editSalePrint(id));
 
 		} else {
 			System.out.println("Não Há vendas com entrega pendente");
@@ -336,14 +336,19 @@ public class Sales {
 
 	public Client resgisterClient() {
 
-		String nome;
+		String nome = null;
 		String telefone;
 		String endereco;
 
 		do {
 			System.out.print("Nome: ");
 
-			nome = reader.nextLine();
+			try {
+				nome = br.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		} while (!validator.validarNome(nome));
 
@@ -454,6 +459,269 @@ public class Sales {
 
 		return facade.brandGetById(id);
 	}
+	
+	
+	public Sale editSalePrint(int id) {
+		Sale sale = facade.saleGetById(id);
+		int answer = 0;
+		
+		do {
+		System.out.println("***********************************");
+		System.out.println("* SELECIONE OS CAMPOS PARA EDITAR *");
+		System.out.println("* 1 - Cliente                     *");
+		System.out.println("* 2 - Carrinho                    *");
+		System.out.println("* 3 - Método de pagamento         *");
+		System.out.println("* 4 - Finalizar modificações      *");
+		System.out.println("***********************************");
+		System.out.println();
+		System.out.print("Opção: ");
+		try {
+			answer = Integer.parseInt(br.readLine());
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		switch (answer) {
+		case 1:
+			editClientField(sale);
+			answer = 0;
+			break;
+		case 2:
+			editItensField(sale);
+			answer = 0;
+			break;
+		case 3:
+			editPaymentField(sale);
+			answer = 0;
+			break;
+		case 4:
+			
+			break;
+		default:
+			answer = 0;
+			break;
+		}
+		}while(answer!=4);
+		return sale;
+	}
+	
+	public void editClientField(Sale sale) {
+		int answer = 0;
+		String nome = null;
+		String numero = null;
+		String endereco = null;
+		do {
+		System.out.println();
+		System.out.println("***********************************");
+		System.out.println("*  SELECIONE O CAMPO DE CLIENTE   *");
+		System.out.println("* 1 - Nome                        *");
+		System.out.println("* 2 - Telefone                    *");
+		System.out.println("* 3 - Endereço                    *");
+		System.out.println("* 4 - Finalizar modificações      *");
+		System.out.println("***********************************");
+		System.out.println();
+		System.out.print("Opção: ");
+		try {
+			answer = Integer.parseInt(br.readLine());
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		switch (answer) {
+		case 1:
+			do {
+				System.out.print("Novo Nome: ");
+
+				try {
+					nome = br.readLine();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+			} while (!validator.validarNome(nome));
+			sale.getClient().setName(nome);
+			answer = 0;
+			break;
+			
+		case 2:
+			do {
+				System.out.print("Novo Telefone: ");
+
+				try {
+					numero = br.readLine();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+			} while (!validator.validarnumero(numero));
+			sale.getClient().setPhoneNumber(numero);
+			answer = 0;
+			break;
+			
+		case 3:
+			do {
+				System.out.print("Novo Endereço: ");
+
+				try {
+					endereco = br.readLine();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+			} while (!validator.validarEndereco(endereco));
+			sale.getClient().setAddress(endereco);
+			answer = 0;
+			break;
+			
+		case 4:
+			break;
+		default:
+			System.out.println("Opção Inválida");
+			answer = 0;
+			break;
+		}
+		}while(answer!=4);
+	}
+	
+	public void editItensField(Sale sale) {
+		String option = null;
+		int answer = 0;
+		do {
+		System.out.println();
+		System.out.println("***********************************");
+		System.out.println("*      PRODUTOS NO CARRINHO       *");
+		System.out.println();
+		Print.list(sale.getItems());
+		System.out.println();
+		System.out.println("***********************************");
+		System.out.println();
+		System.out.println("***********************************");
+		System.out.println("*     SELECIONE A MODIFICAÇÃO     *");
+		System.out.println("* 1 - Adicionar Produtos          *");
+		System.out.println("* 2 - Remover Produtos            *");
+		System.out.println("* 3 - Editar a Quantidade         *");
+		System.out.println("* 4 - Finalizar modificações      *");
+		System.out.println("***********************************");
+		System.out.println();
+		System.out.print("Opção: ");
+		try {
+			answer = Integer.parseInt(br.readLine());
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		switch (answer) {
+		case 1:
+			do {
+				
+				sale.getItems().add(registerOrderItem());
+
+				System.out.print("Inserir mais um produto (S ou N)?");
+				try {
+					option = br.readLine();
+				} catch (IOException e) {
+					System.out.println(e.getMessage());
+				}
+
+			} while (option.equalsIgnoreCase("S"));
+			answer=0;
+			break;
+			
+		case 2:
+			do {
+			System.out.println("Selecione o produto (#):");
+			System.out.println();
+			sale.indexItem();
+			int item = 0;
+			try {
+				item = Integer.parseInt(br.readLine());
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			sale.getItems().remove(item);
+			System.out.println("Deseja Remover Outro Produto?(S/N)");
+			try {
+				option = br.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			}while(option.equalsIgnoreCase("S"));
+			answer = 0;
+			break;
+			
+		case 3:
+			int idAnswer = 0;
+			System.out.println("Selecione o produto (#):");
+			System.out.println();
+			sale.indexItem();
+			System.out.println();
+			System.out.print("Opção:");
+			try {
+				idAnswer = Integer.parseInt(br.readLine());
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println();
+			int quantidade = 0;
+			System.out.print("Quantidade: ");
+			
+			try {
+				 quantidade = Integer.parseInt(br.readLine());
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			sale.getItems().get(idAnswer).setQuantity(quantidade);
+			System.out.println();
+			break;
+			
+		case 4:
+			
+			break;
+		default:
+			answer = 0;
+			break;
+		}
+		}while(answer!=4);
+	}
+	
+	public void editPaymentField(Sale sale) {
+		try {
+			sale.setPaymentMethod(registerPaymentMethod());
+		} catch (SaleException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	// works only on cdm
 	public static void clearConsole() {

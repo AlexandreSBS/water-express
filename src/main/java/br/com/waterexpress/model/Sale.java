@@ -70,6 +70,14 @@ public class Sale {
 
 		return total;
 	}
+	
+	public void indexItem() {
+		int index = 0;
+		for(OrderItem item: items) {
+			System.out.println("#"+index + ", " +item );
+			index++;
+		}
+	}
 
 	@Override
 	public String toString() {

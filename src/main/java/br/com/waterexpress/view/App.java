@@ -11,7 +11,7 @@ public class App {
 	
 	public static void main(String[] args) throws FontFormatException, Exception {
 
-		Client client = new Client();
+		/*Client client = new Client();
 		client.setName("teste");
 		client.setPhoneNumber("(11) 1111-1111");
 		client.setAddress("rua das batatas");
@@ -24,7 +24,7 @@ public class App {
 		
 
 		
-		clients.forEach((c) -> System.out.println(c));
+		clients.forEach((c) -> System.out.println(c));*/
 		
 
 		
