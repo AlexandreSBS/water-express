@@ -516,6 +516,7 @@ public class Sales {
 				break;
 			}
 		} while (answer != 4);
+		facade.saleUpdate(sale);
 		return sale;
 	}
 
@@ -597,6 +598,7 @@ public class Sales {
 				break;
 			}
 		} while (answer != 4);
+		facade.clientUpdate(sale.getClient());
 	}
 
 	public void editItensField(Sale sale) {
@@ -705,6 +707,7 @@ public class Sales {
 				}
 				sale.getItems().get(idAnswer).setQuantity(quantidade);
 				System.out.println();
+				answer = 0;
 				break;
 
 			case 4:
@@ -715,6 +718,10 @@ public class Sales {
 				break;
 			}
 		} while (answer != 4);
+		for(OrderItem test: sale.getItems()) {
+			facade.OrderItemUpdate(test);
+		}
+		
 	}
 
 	public void editPaymentField(Sale sale) {
