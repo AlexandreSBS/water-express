@@ -319,7 +319,14 @@ public class Sales {
 	private OrderItem registerOrderItem() {
 
 		int quantity = 0;
-		Product product = resgisterProduct();
+		Product product = null;
+		
+		try {
+			product = resgisterProduct();
+		} catch (Exception e) {
+			
+			System.out.println(e.getMessage());
+		}
 
 		try {
 			quantity = registerQuantity();
@@ -376,7 +383,7 @@ public class Sales {
 		return client;
 	}
 
-	public Product resgisterProduct() {
+	public Product resgisterProduct() throws Exception {
 
 		System.out.println();
 		System.out.println("*********************************");
@@ -386,21 +393,22 @@ public class Sales {
 
 		try {
 			Print.list(facade.productListAll());
+
+			System.out.println();
+			System.out.print("Selecione o produto (ID): ");
+
+			int id = reader.nextInt();
+
+			Product product = facade.productGetById(id);
+			return product;
+
 		} catch (Exception e) {
-			
+
 			System.out.println();
 			System.out.println(e.getMessage());
-			System.out.println();
 		}
-		
-		System.out.println();
-		System.out.print("Selecione o produto (ID): ");
 
-		int id = reader.nextInt();
-
-		Product product = facade.productGetById(id);
-
-		return product;
+		throw new Exception();
 	}
 
 	public int registerQuantity() throws SaleException {

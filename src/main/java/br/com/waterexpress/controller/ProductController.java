@@ -35,9 +35,12 @@ public class ProductController implements Operacoes<Product>{
 	}	
 	
 	public List<Product> listAll() throws Exception {
+		
 		List<Product> allProducts = dao.listAll();
+		
 		if(!allProducts.isEmpty()) {
-		return allProducts;
+		
+			return allProducts;
 		}
 		else {
 			throw new Exception("Não existem produtos registrados");
