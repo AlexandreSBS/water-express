@@ -1,5 +1,9 @@
 package br.com.waterexpress.view;
 
-public class Register {
+import java.io.IOException;
 
+import br.com.waterexpress.model.Client;
+
+public class Register {
+	
 }

@@ -20,11 +20,10 @@ import br.com.waterexpress.util.Print;
 import br.com.waterexpress.util.Validator;
 
 public class Sales {
-
+	Register register = new Register();
 	private Validator validator = Validator.getValidator();
 	private Facade facade;
-	Scanner reader = new Scanner(System.in);
-	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
 	public Sales() {
 
@@ -60,7 +59,7 @@ public class Sales {
 				System.out.print("Opção: ");
 				try {
 
-					homeOptions = Integer.parseInt(br.readLine());
+					homeOptions = Integer.parseInt(reader.readLine());
 
 				} catch (InputMismatchException e) {
 
@@ -119,6 +118,7 @@ public class Sales {
 
 			facade.saleInsert(sale());
 
+			
 			System.out.println("*********************************");
 			System.out.println("******  Compra Registrada  ******");
 			System.out.println("*********************************");
@@ -150,13 +150,11 @@ public class Sales {
 			System.out.println("Selecione a Venda (ID):");
 
 			try {
-				id = reader.nextInt();
+				id = Integer.parseInt(reader.readLine());
 			} catch (Exception e) {
 
 				Print.getIntMessageError();
 			}
-
-			reader.nextLine();
 
 			facade.saleUpdate(editSalePrint(id));
 
@@ -180,7 +178,16 @@ public class Sales {
 			Print.list(sales);
 
 			System.out.print("Selecione venda (ID):");
-			int id = reader.nextInt();
+			int id = 0;
+			try {
+				id = Integer.parseInt(reader.readLine());
+			} catch (NumberFormatException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
 			try {
 
@@ -195,7 +202,6 @@ public class Sales {
 			System.out.println("Não há vendas registradas");
 		}
 
-		reader.nextLine();
 	}
 
 	public void salesList() throws SaleException {
@@ -206,7 +212,16 @@ public class Sales {
 		System.out.println(" 3: Filtrar por marca                |");
 		System.out.println("**************************************");
 
-		int option = reader.nextInt();
+		int option = 0;
+		try {
+			option = Integer.parseInt(reader.readLine());
+		} catch (NumberFormatException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		switch (option) {
 		case 1:
@@ -241,7 +256,13 @@ public class Sales {
 
 			System.out.println("Colocar para entregar (S ou N)?");
 
-			String resp = reader.next().toUpperCase();
+			String resp = null;
+			try {
+				resp = reader.readLine().toUpperCase();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			switch (resp) {
 
@@ -287,8 +308,9 @@ public class Sales {
 		Sale sale = new Sale(client, itens, method);
 
 		System.out.println("*********************************");
-		System.out.println("Valor ToTal: " + sale.getTotalValue());
+		System.out.println("Valor ToTal: " + sale.totalValue());
 		System.out.println("*********************************");
+		System.out.println();
 
 		return sale;
 
@@ -304,7 +326,7 @@ public class Sales {
 
 			System.out.print("Inserir mais um produto (S ou N)?");
 			try {
-				option = br.readLine();
+				option = reader.readLine();
 			} catch (IOException e) {
 				System.out.println();
 				System.out.println(e.getMessage());
@@ -346,14 +368,14 @@ public class Sales {
 	public Client resgisterClient() {
 
 		String nome = null;
-		String telefone;
-		String endereco;
+		String telefone = null;
+		String endereco = null;
 
 		do {
 			System.out.print("Nome: ");
 
 			try {
-				nome = br.readLine();
+				nome = reader.readLine();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -364,15 +386,24 @@ public class Sales {
 		do {
 			System.out.print("Telefone: ");
 
-			telefone = reader.next();
+			try {
+				telefone = reader.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		} while (!validator.validarnumero(telefone));
 
 		do {
 			System.out.print("Endereço: ");
-			reader.nextLine();
 
-			endereco = reader.nextLine();
+			try {
+				endereco = reader.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		} while (!validator.validarEndereco(endereco));
 
@@ -397,7 +428,7 @@ public class Sales {
 			System.out.println();
 			System.out.print("Selecione o produto (ID): ");
 
-			int id = reader.nextInt();
+			int id = Integer.parseInt(reader.readLine());
 
 			Product product = facade.productGetById(id);
 			return product;
@@ -417,12 +448,15 @@ public class Sales {
 
 		System.out.print("Quantidade: ");
 		try {
-			quantity = reader.nextInt();
+			quantity = Integer.parseInt(reader.readLine());
 
 		} catch (InputMismatchException e) {
 
 			Print.getIntMessageError();
 		}
+		  catch(IOException e) {
+			  e.printStackTrace();
+		  }
 
 		if (quantity > 0) {
 
@@ -444,7 +478,7 @@ public class Sales {
 		System.out.println("*********************************");
 
 		try {
-			option = reader.nextInt();
+			option = Integer.parseInt(reader.readLine());
 
 		} catch (Exception e) {
 
@@ -472,7 +506,16 @@ public class Sales {
 
 		System.out.println();
 		System.out.print("Selecione a marca (ID): ");
-		int id = reader.nextInt();
+		int id = 0;
+		try {
+			id = Integer.parseInt(reader.readLine());
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println();
 
 		return facade.brandGetById(id);
@@ -494,7 +537,7 @@ public class Sales {
 			System.out.print("Opção: ");
 
 			try {
-				answer = Integer.parseInt(br.readLine());
+				answer = Integer.parseInt(reader.readLine());
 			} catch (NumberFormatException e) {
 
 				e.printStackTrace();
@@ -545,7 +588,7 @@ public class Sales {
 			System.out.println();
 			System.out.print("Opção: ");
 			try {
-				answer = Integer.parseInt(br.readLine());
+				answer = Integer.parseInt(reader.readLine());
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -558,7 +601,7 @@ public class Sales {
 					System.out.print("Novo Nome: ");
 
 					try {
-						nome = br.readLine();
+						nome = reader.readLine();
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -573,7 +616,7 @@ public class Sales {
 					System.out.print("Novo Telefone: ");
 
 					try {
-						numero = br.readLine();
+						numero = reader.readLine();
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -588,7 +631,7 @@ public class Sales {
 					System.out.print("Novo Endereço: ");
 
 					try {
-						endereco = br.readLine();
+						endereco = reader.readLine();
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -631,7 +674,7 @@ public class Sales {
 			System.out.println();
 			System.out.print("Opção: ");
 			try {
-				answer = Integer.parseInt(br.readLine());
+				answer = Integer.parseInt(reader.readLine());
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -648,7 +691,7 @@ public class Sales {
 
 					System.out.print("Inserir mais um produto (S ou N)?");
 					try {
-						option = br.readLine();
+						option = reader.readLine();
 					} catch (IOException e) {
 						System.out.println(e.getMessage());
 					}
@@ -664,7 +707,7 @@ public class Sales {
 					sale.indexItem();
 					int item = 0;
 					try {
-						item = Integer.parseInt(br.readLine());
+						item = Integer.parseInt(reader.readLine());
 					} catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -675,7 +718,7 @@ public class Sales {
 					sale.getItems().remove(item);
 					System.out.println("Deseja Remover Outro Produto?(S/N)");
 					try {
-						option = br.readLine();
+						option = reader.readLine();
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -692,7 +735,7 @@ public class Sales {
 				System.out.println();
 				System.out.print("Opção:");
 				try {
-					idAnswer = Integer.parseInt(br.readLine());
+					idAnswer = Integer.parseInt(reader.readLine());
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -705,7 +748,7 @@ public class Sales {
 				System.out.print("Quantidade: ");
 
 				try {
-					quantidade = Integer.parseInt(br.readLine());
+					quantidade = Integer.parseInt(reader.readLine());
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

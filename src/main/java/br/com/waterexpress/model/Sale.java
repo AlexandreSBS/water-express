@@ -38,8 +38,6 @@ public class Sale {
 	@Enumerated(EnumType.STRING)
 	private PaymentMethod paymentMethod;
 
-	private double totalValue;
-
 	private LocalDateTime date;
 
 	@Enumerated(EnumType.STRING)
@@ -57,7 +55,6 @@ public class Sale {
 		this.client = client;
 		this.items = itens;
 		this.paymentMethod = paymentMethods;
-		this.totalValue = totalValue();
 		date = LocalDateTime.now();
 		status = SaleStatus.PROCESSING;
 	}
@@ -95,7 +92,7 @@ public class Sale {
 			sb.append(item);
 		}
 		sb.append("\n------------------------------------------------------------------\n");
-		sb.append("\nTotal: R$ " + totalValue);
+		sb.append("\nTotal: R$ " + totalValue());
 		sb.append(" | " + paymentMethod);
 		sb.append(" | " + status);
 		sb.append("\n------------------------------------------------------------------");
@@ -130,15 +127,6 @@ public class Sale {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	// TotalValue's get/set
-	public double getTotalValue() {
-		return totalValue;
-	}
-
-	public void setTotalValue(double totalValue) {
-		this.totalValue = totalValue;
 	}
 
 	// Client's get/set
