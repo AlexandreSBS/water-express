@@ -68,7 +68,6 @@ public class Sales {
 
 				} finally {
 
-					
 				}
 
 				switch (homeOptions) {
@@ -94,7 +93,7 @@ public class Sales {
 					homeOptions = 0;
 					break;
 				case 6:
-					
+
 					break;
 				default:
 
@@ -158,7 +157,7 @@ public class Sales {
 			}
 
 			reader.nextLine();
-			
+
 			facade.saleUpdate(editSalePrint(id));
 
 		} else {
@@ -176,7 +175,7 @@ public class Sales {
 
 		List<Sale> sales = facade.saleListProcessingSales();
 
-		if (sales != null) {
+		if (!sales.isEmpty()) {
 
 			Print.list(sales);
 
@@ -216,8 +215,9 @@ public class Sales {
 				Print.list(facade.saleListAll());
 
 			} catch (Exception e) {
-
+				System.out.println();
 				System.out.println(e.getMessage());
+				System.out.println();
 			}
 			break;
 		case 2:
@@ -238,7 +238,7 @@ public class Sales {
 
 		if (ProcessingSales != null) {
 			Print.list(ProcessingSales);
-			
+
 			System.out.println("Colocar para entregar (S ou N)?");
 
 			String resp = reader.next().toUpperCase();
@@ -246,12 +246,10 @@ public class Sales {
 			switch (resp) {
 
 			case "S":
-
 				facade.saleChangeToPosted(ProcessingSales);
-
-				System.out.println("******************************");
-				System.out.println("| Ação realizada com sucesso |");
-				System.out.println("******************************");
+				System.out.println("*********************************");
+				System.out.println("*  Ação realizada com sucesso   *");
+				System.out.println("*********************************");
 				System.out.println();
 
 				break;
@@ -259,7 +257,9 @@ public class Sales {
 
 				break;
 			default:
-				System.out.println("Opção Inválida");
+				System.out.println();
+				System.out.println("******** Opção Inválida! ********");
+				System.out.println();
 				break;
 			}
 		} else {
@@ -279,8 +279,9 @@ public class Sales {
 			method = registerPaymentMethod();
 
 		} catch (SaleException e) {
-
+			System.out.println();
 			System.out.println(e.getMessage());
+			System.out.println();
 		}
 
 		Sale sale = new Sale(client, itens, method);
@@ -305,32 +306,33 @@ public class Sales {
 			try {
 				option = br.readLine();
 			} catch (IOException e) {
+				System.out.println();
 				System.out.println(e.getMessage());
+				System.out.println();
 			}
 
 		} while (option.equalsIgnoreCase("S"));
 
-		
-		
 		return itens;
 	}
 
 	private OrderItem registerOrderItem() {
-		
+
 		int quantity = 0;
 		Product product = resgisterProduct();
-		
+
 		try {
 			quantity = registerQuantity();
-			
+
 		} catch (SaleException e) {
-			
+			System.out.println();
 			System.out.println(e.getMessage());
+			System.out.println();
 		}
-		
+
 		OrderItem orderItem = new OrderItem(quantity, product);
 		facade.OrderItemInsert(orderItem);
-		
+
 		return orderItem;
 	}
 
@@ -382,8 +384,16 @@ public class Sales {
 		System.out.println("*********************************");
 		System.out.println();
 
-		Print.list(facade.productListAll());
-
+		try {
+			Print.list(facade.productListAll());
+		} catch (Exception e) {
+			
+			System.out.println();
+			System.out.println(e.getMessage());
+			System.out.println();
+		}
+		
+		System.out.println();
 		System.out.print("Selecione o produto (ID): ");
 
 		int id = reader.nextInt();
@@ -394,24 +404,25 @@ public class Sales {
 	}
 
 	public int registerQuantity() throws SaleException {
+
 		int quantity = 0;
-		
+
 		System.out.print("Quantidade: ");
 		try {
 			quantity = reader.nextInt();
-			
-		}catch (InputMismatchException e) {
-			
+
+		} catch (InputMismatchException e) {
+
 			Print.getIntMessageError();
 		}
-		
+
 		if (quantity > 0) {
 
 			return quantity;
 
 		} else {
 
-			throw new SaleException("VALOR NEGATIVO!");
+			throw new SaleException("****** Quantidade inválida ******");
 		}
 	}
 
@@ -452,259 +463,260 @@ public class Sales {
 		Print.list(facade.brandListAll());
 
 		System.out.println();
-
 		System.out.print("Selecione a marca (ID): ");
 		int id = reader.nextInt();
 		System.out.println();
 
 		return facade.brandGetById(id);
 	}
-	
-	
+
 	public Sale editSalePrint(int id) {
 		Sale sale = facade.saleGetById(id);
 		int answer = 0;
-		
+
 		do {
-		System.out.println("***********************************");
-		System.out.println("* SELECIONE OS CAMPOS PARA EDITAR *");
-		System.out.println("* 1 - Cliente                     *");
-		System.out.println("* 2 - Carrinho                    *");
-		System.out.println("* 3 - Método de pagamento         *");
-		System.out.println("* 4 - Finalizar modificações      *");
-		System.out.println("***********************************");
-		System.out.println();
-		System.out.print("Opção: ");
-		try {
-			answer = Integer.parseInt(br.readLine());
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		switch (answer) {
-		case 1:
-			editClientField(sale);
-			answer = 0;
-			break;
-		case 2:
-			editItensField(sale);
-			answer = 0;
-			break;
-		case 3:
-			editPaymentField(sale);
-			answer = 0;
-			break;
-		case 4:
-			
-			break;
-		default:
-			answer = 0;
-			break;
-		}
-		}while(answer!=4);
+			System.out.println("***********************************");
+			System.out.println("* SELECIONE OS CAMPOS PARA EDITAR *");
+			System.out.println("* 1 - Cliente                     *");
+			System.out.println("* 2 - Carrinho                    *");
+			System.out.println("* 3 - Método de pagamento         *");
+			System.out.println("* 4 - Finalizar modificações      *");
+			System.out.println("***********************************");
+			System.out.println();
+			System.out.print("Opção: ");
+
+			try {
+				answer = Integer.parseInt(br.readLine());
+			} catch (NumberFormatException e) {
+
+				e.printStackTrace();
+			} catch (IOException e) {
+
+				e.printStackTrace();
+			}
+
+			switch (answer) {
+			case 1:
+				editClientField(sale);
+				answer = 0;
+				break;
+			case 2:
+				editItensField(sale);
+				answer = 0;
+				break;
+			case 3:
+				editPaymentField(sale);
+				answer = 0;
+				break;
+			case 4:
+
+				break;
+			default:
+				answer = 0;
+				break;
+			}
+		} while (answer != 4);
 		return sale;
 	}
-	
+
 	public void editClientField(Sale sale) {
 		int answer = 0;
 		String nome = null;
 		String numero = null;
 		String endereco = null;
 		do {
-		System.out.println();
-		System.out.println("***********************************");
-		System.out.println("*  SELECIONE O CAMPO DE CLIENTE   *");
-		System.out.println("* 1 - Nome                        *");
-		System.out.println("* 2 - Telefone                    *");
-		System.out.println("* 3 - Endereço                    *");
-		System.out.println("* 4 - Finalizar modificações      *");
-		System.out.println("***********************************");
-		System.out.println();
-		System.out.print("Opção: ");
-		try {
-			answer = Integer.parseInt(br.readLine());
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		switch (answer) {
-		case 1:
-			do {
-				System.out.print("Novo Nome: ");
+			System.out.println();
+			System.out.println("***********************************");
+			System.out.println("*  SELECIONE O CAMPO DE CLIENTE   *");
+			System.out.println("* 1 - Nome                        *");
+			System.out.println("* 2 - Telefone                    *");
+			System.out.println("* 3 - Endereço                    *");
+			System.out.println("* 4 - Finalizar modificações      *");
+			System.out.println("***********************************");
+			System.out.println();
+			System.out.print("Opção: ");
+			try {
+				answer = Integer.parseInt(br.readLine());
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 
-				try {
-					nome = br.readLine();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+			switch (answer) {
+			case 1:
+				do {
+					System.out.print("Novo Nome: ");
 
-			} while (!validator.validarNome(nome));
-			sale.getClient().setName(nome);
-			answer = 0;
-			break;
-			
-		case 2:
-			do {
-				System.out.print("Novo Telefone: ");
+					try {
+						nome = br.readLine();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 
-				try {
-					numero = br.readLine();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				} while (!validator.validarNome(nome));
+				sale.getClient().setName(nome);
+				answer = 0;
+				break;
 
-			} while (!validator.validarnumero(numero));
-			sale.getClient().setPhoneNumber(numero);
-			answer = 0;
-			break;
-			
-		case 3:
-			do {
-				System.out.print("Novo Endereço: ");
+			case 2:
+				do {
+					System.out.print("Novo Telefone: ");
 
-				try {
-					endereco = br.readLine();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+					try {
+						numero = br.readLine();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 
-			} while (!validator.validarEndereco(endereco));
-			sale.getClient().setAddress(endereco);
-			answer = 0;
-			break;
-			
-		case 4:
-			break;
-		default:
-			System.out.println("Opção Inválida");
-			answer = 0;
-			break;
-		}
-		}while(answer!=4);
+				} while (!validator.validarnumero(numero));
+				sale.getClient().setPhoneNumber(numero);
+				answer = 0;
+				break;
+
+			case 3:
+				do {
+					System.out.print("Novo Endereço: ");
+
+					try {
+						endereco = br.readLine();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
+				} while (!validator.validarEndereco(endereco));
+				sale.getClient().setAddress(endereco);
+				answer = 0;
+				break;
+
+			case 4:
+				break;
+			default:
+				System.out.println("Opção Inválida");
+				answer = 0;
+				break;
+			}
+		} while (answer != 4);
 	}
-	
+
 	public void editItensField(Sale sale) {
 		String option = null;
 		int answer = 0;
 		do {
-		System.out.println();
-		System.out.println("***********************************");
-		System.out.println("*      PRODUTOS NO CARRINHO       *");
-		System.out.println();
-		Print.list(sale.getItems());
-		System.out.println();
-		System.out.println("***********************************");
-		System.out.println();
-		System.out.println("***********************************");
-		System.out.println("*     SELECIONE A MODIFICAÇÃO     *");
-		System.out.println("* 1 - Adicionar Produtos          *");
-		System.out.println("* 2 - Remover Produtos            *");
-		System.out.println("* 3 - Editar a Quantidade         *");
-		System.out.println("* 4 - Finalizar modificações      *");
-		System.out.println("***********************************");
-		System.out.println();
-		System.out.print("Opção: ");
-		try {
-			answer = Integer.parseInt(br.readLine());
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		switch (answer) {
-		case 1:
-			do {
-				
-				sale.getItems().add(registerOrderItem());
+			System.out.println();
+			System.out.println("***********************************");
+			System.out.println("*      PRODUTOS NO CARRINHO       *");
+			System.out.println();
+			Print.list(sale.getItems());
+			System.out.println();
+			System.out.println("***********************************");
+			System.out.println();
+			System.out.println("***********************************");
+			System.out.println("*     SELECIONE A MODIFICAÇÃO     *");
+			System.out.println("* 1 - Adicionar Produtos          *");
+			System.out.println("* 2 - Remover Produtos            *");
+			System.out.println("* 3 - Editar a Quantidade         *");
+			System.out.println("* 4 - Finalizar modificações      *");
+			System.out.println("***********************************");
+			System.out.println();
+			System.out.print("Opção: ");
+			try {
+				answer = Integer.parseInt(br.readLine());
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
-				System.out.print("Inserir mais um produto (S ou N)?");
+			switch (answer) {
+			case 1:
+				do {
+
+					sale.getItems().add(registerOrderItem());
+
+					System.out.print("Inserir mais um produto (S ou N)?");
+					try {
+						option = br.readLine();
+					} catch (IOException e) {
+						System.out.println(e.getMessage());
+					}
+
+				} while (option.equalsIgnoreCase("S"));
+				answer = 0;
+				break;
+
+			case 2:
+				do {
+					System.out.println("Selecione o produto (#):");
+					System.out.println();
+					sale.indexItem();
+					int item = 0;
+					try {
+						item = Integer.parseInt(br.readLine());
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					sale.getItems().remove(item);
+					System.out.println("Deseja Remover Outro Produto?(S/N)");
+					try {
+						option = br.readLine();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} while (option.equalsIgnoreCase("S"));
+				answer = 0;
+				break;
+
+			case 3:
+				int idAnswer = 0;
+				System.out.println("Selecione o produto (#):");
+				System.out.println();
+				sale.indexItem();
+				System.out.println();
+				System.out.print("Opção:");
 				try {
-					option = br.readLine();
+					idAnswer = Integer.parseInt(br.readLine());
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				} catch (IOException e) {
-					System.out.println(e.getMessage());
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+				System.out.println();
+				int quantidade = 0;
+				System.out.print("Quantidade: ");
 
-			} while (option.equalsIgnoreCase("S"));
-			answer=0;
-			break;
-			
-		case 2:
-			do {
-			System.out.println("Selecione o produto (#):");
-			System.out.println();
-			sale.indexItem();
-			int item = 0;
-			try {
-				item = Integer.parseInt(br.readLine());
-			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				try {
+					quantidade = Integer.parseInt(br.readLine());
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				sale.getItems().get(idAnswer).setQuantity(quantidade);
+				System.out.println();
+				break;
+
+			case 4:
+
+				break;
+			default:
+				answer = 0;
+				break;
 			}
-			sale.getItems().remove(item);
-			System.out.println("Deseja Remover Outro Produto?(S/N)");
-			try {
-				option = br.readLine();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			}while(option.equalsIgnoreCase("S"));
-			answer = 0;
-			break;
-			
-		case 3:
-			int idAnswer = 0;
-			System.out.println("Selecione o produto (#):");
-			System.out.println();
-			sale.indexItem();
-			System.out.println();
-			System.out.print("Opção:");
-			try {
-				idAnswer = Integer.parseInt(br.readLine());
-			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			System.out.println();
-			int quantidade = 0;
-			System.out.print("Quantidade: ");
-			
-			try {
-				 quantidade = Integer.parseInt(br.readLine());
-			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			sale.getItems().get(idAnswer).setQuantity(quantidade);
-			System.out.println();
-			break;
-			
-		case 4:
-			
-			break;
-		default:
-			answer = 0;
-			break;
-		}
-		}while(answer!=4);
+		} while (answer != 4);
 	}
-	
+
 	public void editPaymentField(Sale sale) {
 		try {
 			sale.setPaymentMethod(registerPaymentMethod());
@@ -713,15 +725,6 @@ public class Sales {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 	// works only on cdm
 	public static void clearConsole() {

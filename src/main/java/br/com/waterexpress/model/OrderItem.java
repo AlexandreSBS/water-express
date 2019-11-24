@@ -1,5 +1,6 @@
 package br.com.waterexpress.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +13,7 @@ import javax.persistence.Table;
 public class OrderItem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "pk_order_item")
 	private int id;
 	private int quantity;
 	@ManyToOne

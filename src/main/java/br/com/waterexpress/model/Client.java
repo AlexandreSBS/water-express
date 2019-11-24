@@ -1,5 +1,6 @@
 package br.com.waterexpress.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,8 +13,8 @@ public class Client {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "pk_client")
 	private int id;
-
 	private String name;
 	private String address;
 	private String phoneNumber;

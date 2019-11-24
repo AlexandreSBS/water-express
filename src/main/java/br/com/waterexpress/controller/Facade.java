@@ -120,7 +120,7 @@ public class Facade {
 		return productController.getById(id);
 	}	
 	
-	public List<Product> productListAll() {
+	public List<Product> productListAll() throws Exception {
 		
 		return productController.listAll();
 	}

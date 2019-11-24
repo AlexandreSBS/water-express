@@ -14,15 +14,15 @@ public class MainTest {
 
 		// int id = reader.nextInt();
 
-		BrandDAO bDAO = BrandDAO.getBranDAO();
+		/*BrandDAO bDAO = BrandDAO.getBranDAO();
 
 		ProductDAO dao = ProductDAO.getProductDAO();
 
-		Brand brand = new Brand("Minalba");
+		Brand brand = new Brand("Indaiá");
 
 		bDAO.insert(brand);
 
-		dao.insert(new Product("Garrafão 20L", brand, 15.31));
+		dao.insert(new Product("Garrafão 20L", brand, 5));*/
 
 		Sales sales = new Sales();
 

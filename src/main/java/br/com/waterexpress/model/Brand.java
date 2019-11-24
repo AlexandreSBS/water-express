@@ -1,5 +1,6 @@
 package br.com.waterexpress.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,21 +11,19 @@ import javax.persistence.Table;
 @Table(name = "Brand")
 public class Brand {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "pk_brand")
+	private int id;
+	private String nome;
+
 	public Brand() {}
-	
 
 	public Brand(String nome) {
 		super();
 		this.nome = nome;
 	}
-
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
 	
-	private String nome;
-
 	public String getNome() {
 		return nome;
 	}
@@ -42,7 +41,6 @@ public class Brand {
 	}
 
 
-	@Override
 	public String toString() {
 		return nome;
 	}

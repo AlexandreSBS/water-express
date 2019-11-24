@@ -49,7 +49,7 @@ public class SaleController implements Operacoes<Sale> {
 
 		List<Sale> sales = dao.listAll();
 		
-		if (sales != null) {
+		if (!sales.isEmpty()) {
 			return sales;
 		}
 		else {
