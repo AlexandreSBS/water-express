@@ -215,10 +215,8 @@ public class Sales {
 		try {
 			option = Integer.parseInt(reader.readLine());
 		} catch (NumberFormatException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -239,7 +237,7 @@ public class Sales {
 			Print.list(facade.saleListByPaymentMethod(pm));
 			break;
 		case 3:
-			// TODO tá quebrado (por enquanto kkk)
+			Print.list(facade.saleListByBrand(registerBrand()));
 			break;
 		default:
 			System.out.println("Opção Invalida");
@@ -497,7 +495,7 @@ public class Sales {
 
 	}
 
-	public Brand brandRegister() throws SaleException {
+	public Brand registerBrand() throws SaleException {
 
 		System.out.println("*********************************");
 		System.out.println("***********  Marcas  ************");

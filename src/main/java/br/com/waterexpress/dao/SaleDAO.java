@@ -121,7 +121,6 @@ public class SaleDAO implements Operacoes<Sale> {
 				"		,Sale.paymentMethod\r\n" + 
 				"		,Sale.status\r\n" + 
 				"		,Sale.client_pk_client\r\n" + 
-				"		,Sale.totalValue\r\n" + 
 				"FROM	Sale\r\n" + 
 				"INNER	JOIN Sale_OrderItem \r\n" + 
 				"ON		Sale.pk_sale = Sale_OrderItem.Sale_pk_sale\r\n" + 

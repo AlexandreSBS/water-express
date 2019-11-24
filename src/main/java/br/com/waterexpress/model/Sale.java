@@ -82,8 +82,7 @@ public class Sale {
 	public String toString() {
 
 		StringBuilder sb = new StringBuilder();
-
-		sb.append("------------------------------------------------------------------\n");
+		sb.append("******************************************************************\n");
 		sb.append("Id: " + id);
 		sb.append("\nCliente: " + client);
 		sb.append("\nITENS:\n");
@@ -95,7 +94,7 @@ public class Sale {
 		sb.append("\nTotal: R$ " + totalValue());
 		sb.append(" | " + paymentMethod);
 		sb.append(" | " + status);
-		sb.append("\n------------------------------------------------------------------");
+		sb.append("\n******************************************************************");
 
 		return sb.toString();
 	}
