@@ -3,6 +3,8 @@ package br.com.waterexpress.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -16,7 +18,7 @@ public class SaleDAO implements Operacoes<Sale> {
 
 	private SessionFactory sessionFactory;
 	private static SaleDAO instance;
-
+	private EntityManager entityManager; 
 	private SaleDAO() {
 		sessionFactory = FactorySession.getFactorySession().getSessionFactory();
 	}
@@ -108,14 +110,29 @@ public class SaleDAO implements Operacoes<Sale> {
 
 	}
 
-	// TODO Testar se funciona na dinamica do hibernate
+	
 	public List<Sale> listByBrand(Brand brand) {
 
 		List<Sale> result = new ArrayList<Sale>();
 		Session session = sessionFactory.openSession();
 
-		result = session.createQuery("from Sale where brand = " + brand).list();
-
+		String queryString = "SELECT distinct(Sale.pk_sale)\r\n" + 
+				"		,Sale.date\r\n" + 
+				"		,Sale.paymentMethod\r\n" + 
+				"		,Sale.status\r\n" + 
+				"		,Sale.client_pk_client\r\n" + 
+				"		,Sale.totalValue\r\n" + 
+				"FROM	Sale\r\n" + 
+				"INNER	JOIN Sale_OrderItem \r\n" + 
+				"ON		Sale.pk_sale = Sale_OrderItem.Sale_pk_sale\r\n" + 
+				"INNER	JOIN OrderItem \r\n" + 
+				"ON		Sale_OrderItem.items_pk_order_item = OrderItem.pk_order_item\r\n" + 
+				"INNER	JOIN Product \r\n" + 
+				"ON		OrderItem.product_pk_productS = Product.pk_productS\r\n" + 
+				"where	Product.brand_pk_brand =" + brand.getId();
+		
+		result = session.createNativeQuery(queryString, Sale.class).list();
+		
 		session.close();
 
 		return result;

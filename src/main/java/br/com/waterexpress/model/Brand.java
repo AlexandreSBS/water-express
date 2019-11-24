@@ -42,7 +42,7 @@ public class Brand {
 
 
 	public String toString() {
-		return nome;
+		return id +" | "+nome;
 	}
 	
 }

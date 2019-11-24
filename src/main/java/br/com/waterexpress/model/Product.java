@@ -29,12 +29,9 @@ public class Product {
 		this.brand = brand;
 		this.price = price;
 	}
-
 	
-	
-	@Override
 	public String toString() {
-		return id + " - " + name + " - " + brand + " - R$"+price;
+		return id + " - " + name + " - " + brand.getNome() + " - R$"+price;
 	}
 
 	// brand get/set

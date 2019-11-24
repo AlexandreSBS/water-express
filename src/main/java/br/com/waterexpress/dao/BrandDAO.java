@@ -57,7 +57,7 @@ public class BrandDAO implements Operacoes<Brand> {
 		List<Brand> result = new ArrayList<Brand>();
 		Session session = sessionFactory.openSession();
 		
-		result = session.createQuery("from Aluno").list();
+		result = session.createQuery("from Brand").list();
 		
 		session.close();
 		
