@@ -27,6 +27,7 @@ public class Validator {
 		if (!(resultado.matches())) {
 			System.out.println("O nome " + "'" + nome + "'" + " não é válido");
 			System.out.println("+++++++++++++++++++++++++++++++");
+			System.out.println();
 			return false;
 		} else {
 			return true;
@@ -42,6 +43,7 @@ public class Validator {
 		if (!(resultado.matches())) {
 			System.out.println("O endereco " + endereco + " não é válido");
 			System.out.println("+++++++++++++++++++++++++++++++");
+			System.out.println();
 			return false;
 		} else {
 			return true;
@@ -56,6 +58,7 @@ public class Validator {
 		if(!(resultado.matches())) {
 			System.out.println("O telefone "+ numero + " não é válido");
 			System.out.println("+++++++++++++++++++++++++++++++");
+			System.out.println();
 			return false;
 		}else {
 			return true;

@@ -60,9 +60,10 @@ public class Sales {
 
 					homeOptions = Integer.parseInt(reader.readLine());
 
-				} catch (InputMismatchException e) {
+				} catch (NumberFormatException e) {
 
-					Print.getIntMessageError(1, 6);
+					Print.getIntMessageError();
+					;
 
 				} finally {
 
@@ -91,7 +92,6 @@ public class Sales {
 					homeOptions = 0;
 					break;
 				case 6:
-
 					break;
 				default:
 
@@ -151,15 +151,13 @@ public class Sales {
 				try {
 					id = Integer.parseInt(reader.readLine());
 				} catch (Exception e) {
-					
+
 					Print.getIntMessageError();
-					
+
 				}
 				editedSale = editSalePrint(id);
-				if(!(editedSale != null)) {
-					System.out.println();
-					System.out.println("**Insira Um Id Válido**");
-					System.out.println();
+				if (!(editedSale != null)) {
+					Print.getIdValidMessege();
 				}
 			}
 			facade.saleUpdate(editedSale);
@@ -171,7 +169,8 @@ public class Sales {
 	}
 
 	public void saleCancellation() {
-
+		int id = 0;
+		Sale cancelSale;
 		System.out.println("*********************************");
 		System.out.println("***** Cancelamento de venda *****");
 		System.out.println("*********************************");
@@ -183,21 +182,26 @@ public class Sales {
 
 			Print.list(sales);
 
-			System.out.print("Selecione venda (ID):");
-			int id = 0;
-			try {
-				id = Integer.parseInt(reader.readLine());
-			} catch (NumberFormatException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			do {
+				System.out.print("Selecione venda (ID):");
 
+				try {
+					id = Integer.parseInt(reader.readLine());
+				} catch (NumberFormatException e1) {
+					Print.getIntMessageError();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				cancelSale = facade.saleGetById(id);
+				if (cancelSale == null) {
+					Print.getIdValidMessege();
+				}
+			} while (cancelSale == null);
 			try {
 
-				facade.saleCancel(facade.saleGetById(id));
+				facade.saleCancel(cancelSale);
+				Print.getCanceledSaleMessege();
 
 			} catch (SaleException e) {
 
@@ -331,6 +335,7 @@ public class Sales {
 			System.out.print("Inserir mais um produto (S ou N)?");
 			try {
 				option = reader.readLine();
+				System.out.println();
 			} catch (IOException e) {
 				System.out.println();
 				System.out.println(e.getMessage());
@@ -434,7 +439,7 @@ public class Sales {
 				}
 				product = facade.productGetById(id);
 				if (product == null) {
-					System.out.println("Escolha Um Produto Válido!");
+					Print.getIdValidMessege();
 				}
 			} while (product == null);
 			return product;
@@ -458,9 +463,7 @@ public class Sales {
 				quantity = Integer.parseInt(reader.readLine());
 
 				if (quantity <= 0) {
-					System.out.println();
-					System.out.println("** Quantidade inválida **");
-					System.out.println();
+					Print.getQuantInvalidMessege();
 				}
 
 			} catch (NumberFormatException e) {
@@ -561,11 +564,8 @@ public class Sales {
 
 				e.printStackTrace();
 			}
-			if(answer>4) {
-				System.out.println();
-				System.out.println("**A Opção "+ answer + " Não Existe**");
-				System.out.println("**Insira Outra opção**");
-				System.out.println();
+			if (answer > 4) {
+				Print.getMenuinvalidOptionMessege(answer);
 			}
 
 			switch (answer) {
@@ -615,11 +615,8 @@ public class Sales {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			if(answer>4) {
-				System.out.println();
-				System.out.println("**A Opção "+ answer + " Não Existe**");
-				System.out.println("**Insira Outra opção**");
-				System.out.println();
+			if (answer > 4) {
+				Print.getMenuinvalidOptionMessege(answer);
 			}
 
 			switch (answer) {
@@ -677,13 +674,10 @@ public class Sales {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if(answer>4) {
-				System.out.println();
-				System.out.println("**A Opção "+ answer + " Não Existe**");
-				System.out.println("**Insira Outra opção**");
-				System.out.println();
+			if (answer > 4) {
+				Print.getMenuinvalidOptionMessege(answer);
 			}
-			
+
 			switch (answer) {
 			case 1:
 				do {

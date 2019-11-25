@@ -58,7 +58,7 @@ public class EditSale {
 	
 	public void removeProductCartEdit(Sale sale, String option) {
 			int size = 0;
-			int item = 0;
+			int item = 100;
 		do {
 			do {
 			System.out.println("Selecione o produto (#):");
@@ -68,18 +68,21 @@ public class EditSale {
 			
 			try {
 				item = Integer.parseInt(reader.readLine());
+				
 			} catch (NumberFormatException e) {
 				Print.getIntMessageError();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if(item>=(size-1)) {
+			if(item>(size-1)) {
 				System.out.println();
+				System.out.println("***************************");
 				System.out.println("**Insira Um Numero Válido**");
+				System.out.println("***************************");
 				System.out.println();
 			}
-			}while(item>=(size-1));
+			}while(item>(size-1));
 			
 			sale.getItems().remove(item);
 			
@@ -95,34 +98,51 @@ public class EditSale {
 	
 	// Fazer as Validações
 	public void quantProductsCartEdit(Sale sale) {
-		int idAnswer = 0;
+		int idAnswer = 100;
+		int size = 0;
+		do {
 		System.out.println("Selecione o produto (#):");
 		System.out.println();
 		sale.indexItem();
+		size = sale.getItems().size();
 		System.out.println();
 		System.out.print("Opção:");
 		try {
 			idAnswer = Integer.parseInt(reader.readLine());
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Print.getIntMessageError();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		if(idAnswer>(size-1)) {
+			System.out.println();
+			System.out.println("***************************");
+			System.out.println("**Insira Um Numero Válido**");
+			System.out.println("***************************");
+			System.out.println();
+		}
+		}while(idAnswer>(size-1));
+		
 		System.out.println();
 		int quantidade = 0;
+		do {
 		System.out.print("Quantidade: ");
 
 		try {
 			quantidade = Integer.parseInt(reader.readLine());
+			if(quantidade <=0) {
+				System.out.println();
+				System.out.println("Insira Um Número Válido");
+				System.out.println();
+			}
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Print.getIntMessageError();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		}while(quantidade <=0);
 		sale.getItems().get(idAnswer).setQuantity(quantidade);
 		System.out.println();
 	}
