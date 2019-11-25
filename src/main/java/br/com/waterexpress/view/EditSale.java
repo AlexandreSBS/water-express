@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 
 import br.com.waterexpress.controller.Facade;
 import br.com.waterexpress.model.Sale;
+import br.com.waterexpress.util.Print;
 import br.com.waterexpress.util.Validator;
 
 public class EditSale {
@@ -56,21 +57,32 @@ public class EditSale {
 	}
 	
 	public void removeProductCartEdit(Sale sale, String option) {
+			int size = 0;
+			int item = 0;
 		do {
+			do {
 			System.out.println("Selecione o produto (#):");
 			System.out.println();
 			sale.indexItem();
-			int item = 0;
+			size = sale.getItems().size();
+			
 			try {
 				item = Integer.parseInt(reader.readLine());
 			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Print.getIntMessageError();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			if(item>=(size-1)) {
+				System.out.println();
+				System.out.println("**Insira Um Numero Válido**");
+				System.out.println();
+			}
+			}while(item>=(size-1));
+			
 			sale.getItems().remove(item);
+			
 			System.out.println("Deseja Remover Outro Produto?(S/N)");
 			try {
 				option = reader.readLine();
@@ -81,6 +93,7 @@ public class EditSale {
 		} while (option.equalsIgnoreCase("S"));
 	}
 	
+	// Fazer as Validações
 	public void quantProductsCartEdit(Sale sale) {
 		int idAnswer = 0;
 		System.out.println("Selecione o produto (#):");

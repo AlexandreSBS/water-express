@@ -7,10 +7,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import br.com.waterexpress.interfaces.Operacoes;
+import br.com.waterexpress.interfaces.OperacoesBase;
 import br.com.waterexpress.model.Brand;
 
-public class BrandDAO implements Operacoes<Brand> {
+public class BrandDAO implements OperacoesBase<Brand> {
 
 	private SessionFactory sessionFactory;
 	private static BrandDAO instance;

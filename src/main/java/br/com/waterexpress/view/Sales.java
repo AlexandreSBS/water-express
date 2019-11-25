@@ -132,7 +132,7 @@ public class Sales {
 	}
 
 	public void saleEdit() {
-
+		Sale editedSale = null;
 		int id = 0;
 
 		System.out.println("*********************************");
@@ -145,16 +145,24 @@ public class Sales {
 		Print.list(noPosted);
 
 		if (noPosted != null) {
-			System.out.println("Selecione a Venda (ID):");
+			while (editedSale == null) {
+				System.out.println("Selecione a Venda (ID):");
 
-			try {
-				id = Integer.parseInt(reader.readLine());
-			} catch (Exception e) {
-
-				Print.getIntMessageError();
+				try {
+					id = Integer.parseInt(reader.readLine());
+				} catch (Exception e) {
+					
+					Print.getIntMessageError();
+					
+				}
+				editedSale = editSalePrint(id);
+				if(!(editedSale != null)) {
+					System.out.println();
+					System.out.println("**Insira Um Id Válido**");
+					System.out.println();
+				}
 			}
-
-			facade.saleUpdate(editSalePrint(id));
+			facade.saleUpdate(editedSale);
 
 		} else {
 			System.out.println("Não Há vendas com entrega pendente");
@@ -528,6 +536,9 @@ public class Sales {
 
 	public Sale editSalePrint(int id) {
 		Sale sale = facade.saleGetById(id);
+		if (sale == null) {
+			return sale;
+		}
 		int answer = 0;
 
 		do {
@@ -545,10 +556,16 @@ public class Sales {
 				answer = Integer.parseInt(reader.readLine());
 			} catch (NumberFormatException e) {
 
-				e.printStackTrace();
+				Print.getIntMessageError(1, 4);
 			} catch (IOException e) {
 
 				e.printStackTrace();
+			}
+			if(answer>4) {
+				System.out.println();
+				System.out.println("**A Opção "+ answer + " Não Existe**");
+				System.out.println("**Insira Outra opção**");
+				System.out.println();
 			}
 
 			switch (answer) {
@@ -565,7 +582,6 @@ public class Sales {
 				answer = 0;
 				break;
 			case 4:
-
 				break;
 			default:
 				answer = 0;
@@ -595,9 +611,15 @@ public class Sales {
 			try {
 				answer = Integer.parseInt(reader.readLine());
 			} catch (NumberFormatException e) {
-				e.printStackTrace();
+				Print.getIntMessageError(1, 4);
 			} catch (IOException e) {
 				e.printStackTrace();
+			}
+			if(answer>4) {
+				System.out.println();
+				System.out.println("**A Opção "+ answer + " Não Existe**");
+				System.out.println("**Insira Outra opção**");
+				System.out.println();
 			}
 
 			switch (answer) {
@@ -619,7 +641,6 @@ public class Sales {
 			case 4:
 				break;
 			default:
-				System.out.println("Opção Inválida");
 				answer = 0;
 				break;
 			}
@@ -651,13 +672,18 @@ public class Sales {
 			try {
 				answer = Integer.parseInt(reader.readLine());
 			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Print.getIntMessageError(1, 4);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			if(answer>4) {
+				System.out.println();
+				System.out.println("**A Opção "+ answer + " Não Existe**");
+				System.out.println("**Insira Outra opção**");
+				System.out.println();
+			}
+			
 			switch (answer) {
 			case 1:
 				do {

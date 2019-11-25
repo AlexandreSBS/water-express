@@ -10,11 +10,11 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import br.com.waterexpress.enums.PaymentMethod;
-import br.com.waterexpress.interfaces.Operacoes;
+import br.com.waterexpress.interfaces.OperacoesBase;
 import br.com.waterexpress.model.Brand;
 import br.com.waterexpress.model.Sale;
 
-public class SaleDAO implements Operacoes<Sale> {
+public class SaleDAO implements OperacoesBase<Sale> {
 
 	private SessionFactory sessionFactory;
 	private static SaleDAO instance;

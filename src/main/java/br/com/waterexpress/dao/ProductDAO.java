@@ -7,10 +7,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import br.com.waterexpress.interfaces.Operacoes;
+import br.com.waterexpress.interfaces.OperacoesBase;
 import br.com.waterexpress.model.Product;
 
-public class ProductDAO implements Operacoes<Product> {
+public class ProductDAO implements OperacoesBase<Product> {
 
 	private SessionFactory sessionFactory;
 	private static ProductDAO instance;

@@ -7,10 +7,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import br.com.waterexpress.interfaces.Operacoes;
+import br.com.waterexpress.interfaces.OperacoesBase;
 import br.com.waterexpress.model.OrderItem;
 
-public class OderItemDAO implements Operacoes<OrderItem> {
+public class OderItemDAO implements OperacoesBase<OrderItem> {
 
 	private SessionFactory sessionFactory;
 	private static OderItemDAO instance;

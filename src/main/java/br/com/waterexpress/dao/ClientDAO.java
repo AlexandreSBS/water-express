@@ -7,10 +7,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import br.com.waterexpress.interfaces.Operacoes;
+import br.com.waterexpress.interfaces.OperacoesBase;
 import br.com.waterexpress.model.Client;
 
-public class ClientDAO implements Operacoes<Client> {
+public class ClientDAO implements OperacoesBase<Client> {
 
 	private List<Client> client = new ArrayList<Client>();
 	private SessionFactory sessionFactory;

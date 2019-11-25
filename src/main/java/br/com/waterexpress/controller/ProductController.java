@@ -3,10 +3,10 @@ package br.com.waterexpress.controller;
 import java.util.List;
 
 import br.com.waterexpress.dao.ProductDAO;
-import br.com.waterexpress.interfaces.Operacoes;
+import br.com.waterexpress.interfaces.OperacoesBase;
 import br.com.waterexpress.model.Product;
 
-public class ProductController implements Operacoes<Product>{
+public class ProductController implements OperacoesBase<Product>{
 	
 	private static ProductController instance;
 	private ProductDAO dao;

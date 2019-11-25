@@ -9,11 +9,11 @@ import br.com.waterexpress.dao.SaleDAO;
 import br.com.waterexpress.enums.PaymentMethod;
 import br.com.waterexpress.enums.SaleStatus;
 import br.com.waterexpress.exception.SaleException;
-import br.com.waterexpress.interfaces.Operacoes;
+import br.com.waterexpress.interfaces.OperacoesBase;
 import br.com.waterexpress.model.Brand;
 import br.com.waterexpress.model.Sale;
 
-public class SaleController implements Operacoes<Sale> {
+public class SaleController implements OperacoesBase<Sale> {
 
 	private static SaleController instance;
 	public ProductController productCtrl;
