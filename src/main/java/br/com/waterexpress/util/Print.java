@@ -12,7 +12,7 @@ public class Print {
 	}
 
 	public static void getIntMessageError() {
-
+		
 		System.out.println("++++++++++++++++++++++++++");
 		System.out.println("|         ERRO!!!        |");
 		System.out.println("|    Insira Um Número    |");

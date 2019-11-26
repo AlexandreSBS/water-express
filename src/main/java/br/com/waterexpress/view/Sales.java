@@ -215,22 +215,28 @@ public class Sales {
 	}
 
 	public void salesList() throws SaleException {
-
-		System.out.println("*********** Lista de venda ***********");
-		System.out.println(" 1: Sem Filtro                       |");
-		System.out.println(" 2: Filtrar por método de pagamento  |");
-		System.out.println(" 3: Filtrar por marca                |");
-		System.out.println("**************************************");
-
 		int option = 0;
-		try {
-			option = Integer.parseInt(reader.readLine());
-		} catch (NumberFormatException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		do {
+			System.out.println("*********** Lista de venda ***********");
+			System.out.println(" 1: Sem Filtro                       |");
+			System.out.println(" 2: Filtrar por método de pagamento  |");
+			System.out.println(" 3: Filtrar por marca                |");
+			System.out.println(" 4: Voltar ao menu                   |");
+			System.out.println("**************************************");
+			System.out.println("Opção: ");
 
+			try {
+				option = Integer.parseInt(reader.readLine());
+			} catch (NumberFormatException e1) {
+				Print.getIntMessageError();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			if (option < 0 || option > 4) {
+				Print.getNumberMessageError();
+				Print.getMenuinvalidOptionMessege(option);
+			}
+		} while (option < 1 || option > 4);
 		switch (option) {
 		case 1:
 			try {
@@ -249,6 +255,8 @@ public class Sales {
 			break;
 		case 3:
 			Print.list(facade.saleListByBrand(registerBrand()));
+			break;
+		case 4:
 			break;
 		default:
 			System.out.println("Opção Invalida");
@@ -513,28 +521,32 @@ public class Sales {
 	}
 
 	public Brand registerBrand() throws SaleException {
-
+		Brand brand;
 		System.out.println("*********************************");
 		System.out.println("***********  Marcas  ************");
 		System.out.println("*********************************");
 
 		Print.list(facade.brandListAll());
 
-		System.out.println();
-		System.out.print("Selecione a marca (ID): ");
-		int id = 0;
-		try {
-			id = Integer.parseInt(reader.readLine());
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println();
-
-		return facade.brandGetById(id);
+		do {
+			System.out.println();
+			System.out.print("Selecione a marca (ID): ");
+			int id = 0;
+			try {
+				id = Integer.parseInt(reader.readLine());
+			} catch (NumberFormatException e) {
+				Print.getIntMessageError();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println();
+			brand = facade.brandGetById(id);
+			if (brand == null) {
+				Print.getIdValidMessege();
+			}
+		} while (brand == null);
+		return brand;
 	}
 
 	public Sale editSalePrint(int id) {
