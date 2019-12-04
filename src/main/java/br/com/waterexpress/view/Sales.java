@@ -209,7 +209,7 @@ public class Sales {
 			}
 
 		} else {
-			System.out.println("Não há vendas registradas");
+			System.out.println("Não há vendas passíveis de Cancelamento");
 		}
 
 	}
